@@ -1,0 +1,9 @@
+requests>=2.32,<3
+requests-oauthlib>=2,<3
+numpy>=1.26,<3
+pandas>=2.2,<3
+matplotlib>=3.8,<4
+cartopy>=0.23,<0.26
+eccodes>=2.38,<3
+imageio-ffmpeg>=0.5,<1
+tqdm>=4.66,<5
