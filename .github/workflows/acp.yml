@@ -1,0 +1,76 @@
+name: Earthquake ACP to X
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish to X (false = generate only)'
+        type: boolean
+        default: true
+permissions:
+  contents: write
+concurrency:
+  group: acp-earthquake-publisher
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      ACP_STATE: ${{ github.workspace }}/.state
+      ACP_OUTPUT: ${{ github.workspace }}/output
+      MAX_EVENTS_PER_RUN: '1'
+      PUBLISH_TO_X: ${{ github.event_name == 'schedule' && 'true' || inputs.publish && 'true' || 'false' }}
+      X_API_KEY: ${{ secrets.X_API_KEY }}
+      X_API_SECRET: ${{ secrets.X_API_SECRET }}
+      X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+      X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Restore persistent publication state
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git ls-remote --exit-code --heads origin acp-state >/dev/null; then
+            git fetch origin acp-state
+            git worktree add --detach .state FETCH_HEAD
+          else
+            git worktree add --detach .state HEAD
+            git -C .state checkout --orphan acp-state
+            git -C .state rm -rf .
+          fi
+      - name: Restore completed NOAA frames
+        uses: actions/cache/restore@v4
+        with:
+          path: output/cache
+          key: acp-noaa-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: acp-noaa-v1-
+      - run: pip install -r requirements.txt
+      - name: Analyze and publish queued event
+        run: python acp_monitor.py
+      - name: Save completed NOAA frames
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: output/cache
+          key: acp-noaa-v1-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Save videos, charts and analysis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ACP-results-${{ github.run_id }}
+          path: |
+            output/*/*.mp4
+            output/*/*.png
+            output/*/*.csv
+            output/*/*.json
+            output/*/*.txt
+            output/*/*.npz
+          if-no-files-found: ignore
+          retention-days: 7
