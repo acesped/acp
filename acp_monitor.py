@@ -1,76 +1,27 @@
-# ================================================================
-# ATMOSPHERE CHEMICAL POTENTIAL MONITOR — GOOGLE COLAB
-#
-# • Sismos mundiales M >= 5 ocurridos en los últimos 10 minutos.
-# • Mapas y gráfico horario de los 30 días anteriores.
-# • NOAA GFS de 0.25°: análisis y pronósticos de 1–5 horas.
-# • Threshold = promedio + 3 desviaciones estándar muestrales.
-# • Video MP4 H.264 a 5 escenas/segundo.
-# • Publicación en Twitter / X.
-#
-# Ejecutar esta celda realiza UNA consulta.
-# No instala una programación automática cada 5 minutos.
-# ================================================================
+"""
+Atmosphere Chemical Potential Monitor — GitHub Actions
 
-# ================================================================
-# 01 · CREDENCIALES Y CONFIGURACIÓN
-# ================================================================
+• Consulta únicamente el último sismo mundial M >= 5
+  ocurrido durante los últimos 10 minutos.
+• No procesa eventos antiguos desde queue.json.
+• Comprueba nuevamente la antigüedad antes del análisis.
+• Genera mapas ACP y gráfico horario de los 30 días anteriores.
+• Threshold = promedio + 3 desviaciones estándar muestrales.
+• Video MP4 H.264 a 5 escenas por segundo.
+• Publica en X con coordenadas del epicentro.
+• Conserva registros de publicación para evitar duplicados.
 
-# Pega aquí NUEVAS credenciales OAuth 1.0a de usuario.
-# La aplicación debe tener permisos de lectura y escritura.
+La programación cada 5 minutos corresponde al workflow.
+Una vez aceptado un evento reciente, el análisis continúa
+hasta terminar, aunque transcurran más de 10 minutos.
+"""
 
-X_API_KEY = "zwIxxIiBJRQinx5D0Oc5AmitM"
-X_API_SECRET = "TDOEFl4HT9MCawfyNEFbxjtciYmL1VecfjaWO1UPONsu4Bebhw"
-X_ACCESS_TOKEN = "2561368769-Fq7ihvAYzYBmoCf746AUhd57R5kcf2XwDFgIczs"
-X_ACCESS_TOKEN_SECRET = "wrsve1rbqMErhTMsbKE1xymoSAcCXxkKOFqbfjZXKERRl"
-
-PUBLICAR_EN_X = True
-
-# Google Drive conserva registros entre sesiones de Colab.
-# Si es False, los registros duran solamente mientras exista
-# el almacenamiento de este entorno.
-USAR_GOOGLE_DRIVE = True
-
-VENTANA_MINUTOS = 10
-MAGNITUD_MINIMA = 5.0
-
-DIAS_PREVIOS = 30
-FPS_ESCENAS = 5
-
-RADIO_LATITUD = 20
-RADIO_LONGITUD = 10
-PASO_GRILLA = 0.25
-
-SIGMAS_THRESHOLD = 3
-COBERTURA_MINIMA_PUBLICACION = 0.95
-
-MOSTRAR_VIDEO_EN_COLAB = True
-
-
-# ================================================================
-# 02 · INSTALACIÓN E IMPORTACIONES
-# ================================================================
-
-import sys
-import subprocess
-
-subprocess.check_call([
-    sys.executable, "-m", "pip", "install", "-q",
-    "requests>=2.32,<3",
-    "requests-oauthlib>=2,<3",
-    "numpy>=1.26,<3",
-    "pandas>=2.2,<3",
-    "matplotlib>=3.8,<4",
-    "cartopy>=0.23,<0.26",
-    "eccodes>=2.38,<3",
-    "imageio-ffmpeg>=0.5,<1",
-    "tqdm>=4.66,<5",
-])
-
+import os
 import json
 import time
 import math
 import hashlib
+import subprocess
 from pathlib import Path
 
 import requests
@@ -94,32 +45,56 @@ from eccodes import (
     codes_get_values,
     codes_release,
 )
-from tqdm.auto import tqdm
-from IPython.display import display, Video, Image
+from tqdm import tqdm
 
 
 # ================================================================
-# 03 · DIRECTORIOS Y ESTADO
+# 01 · CREDENCIALES X / TWITTER
 # ================================================================
 
-ROOT = Path("/content/acp_monitor")
+# OAuth 1.0a de usuario con permisos de lectura y escritura.
+# Sustituye estos valores por credenciales nuevas.
+# No publiques credenciales reales en un repositorio público.
+
+X_API_KEY = "zwIxxIiBJRQinx5D0Oc5AmitM"
+X_API_SECRET = "TDOEFl4HT9MCawfyNEFbxjtciYmL1VecfjaWO1UPONsu4Bebhw"
+X_ACCESS_TOKEN = "2561368769-Fq7ihvAYzYBmoCf746AUhd57R5kcf2XwDFgIczs"
+X_ACCESS_TOKEN_SECRET = "wrsve1rbqMErhTMsbKE1xymoSAcCXxkKOFqbfjZXKERRl"
+
+
+# ================================================================
+# 02 · CONFIGURACIÓN
+# ================================================================
+
+VERSION = "ACP-LATEST-EVENT-10MIN-v1"
+
+PUBLICAR_EN_X = (
+    os.environ.get("PUBLISH_TO_X", "true").strip().lower()
+    == "true"
+)
+
+VENTANA_MINUTOS = 10
+MAGNITUD_MINIMA = 5.0
+
+DIAS_PREVIOS = 30
+FPS_ESCENAS = 5
+
+RADIO_LATITUD = 20
+RADIO_LONGITUD = 10
+PASO_GRILLA = 0.25
+
+SIGMAS_THRESHOLD = 3
+COBERTURA_MINIMA_PUBLICACION = 0.95
+
+ROOT = Path(os.environ.get("ACP_OUTPUT", "output")).resolve()
+STATE = Path(os.environ.get("ACP_STATE", ".state")).resolve()
 CACHE = ROOT / "cache"
 
-if USAR_GOOGLE_DRIVE:
-    from google.colab import drive
-
-    drive.mount("/content/drive", force_remount=False)
-    STATE = Path(
-        "/content/drive/MyDrive/ACP_Monitor/publication_state"
-    )
-else:
-    STATE = ROOT / "publication_state"
-
-for directorio in (ROOT, CACHE, STATE):
+for directorio in (ROOT, STATE, CACHE):
     directorio.mkdir(parents=True, exist_ok=True)
 
 HTTP = requests.Session()
-HTTP.headers["User-Agent"] = "ACP-Monitor/Colab"
+HTTP.headers["User-Agent"] = "ACP-Monitor/GitHub-Actions"
 
 HORA = pd.Timedelta(hours=1)
 
@@ -128,9 +103,14 @@ matplotlib.rcParams["animation.ffmpeg_path"] = (
 )
 
 
+# ================================================================
+# 03 · UTILIDADES Y ESTADO PERSISTENTE
+# ================================================================
+
 def guardar_json(ruta, contenido):
     ruta = Path(ruta)
     temporal = ruta.with_suffix(ruta.suffix + ".tmp")
+
     temporal.write_text(
         json.dumps(
             contenido,
@@ -145,13 +125,30 @@ def guardar_json(ruta, contenido):
 
 def leer_json(ruta, defecto=None):
     ruta = Path(ruta)
+
     if ruta.exists():
         return json.loads(ruta.read_text(encoding="utf-8"))
+
     return {} if defecto is None else defecto
 
 
 def ruta_estado(evento):
     return STATE / f"{evento['id']}.json"
+
+
+def ocultar_secretos(texto):
+    texto = str(texto)
+
+    for secreto in (
+        X_API_KEY,
+        X_API_SECRET,
+        X_ACCESS_TOKEN,
+        X_ACCESS_TOKEN_SECRET,
+    ):
+        if secreto:
+            texto = texto.replace(secreto, "[REDACTED]")
+
+    return texto
 
 
 def coordenadas_texto(latitud, longitud):
@@ -180,25 +177,79 @@ def validar_credenciales():
 
     if faltantes:
         raise RuntimeError(
-            "Completa las credenciales al inicio del código: "
+            "Completa las credenciales al inicio del script: "
             + ", ".join(faltantes)
         )
 
 
-def ocultar_secretos(texto):
-    for secreto in (
-        X_API_KEY,
-        X_API_SECRET,
-        X_ACCESS_TOKEN,
-        X_ACCESS_TOKEN_SECRET,
-    ):
-        if secreto:
-            texto = texto.replace(secreto, "[REDACTED]")
-    return texto
+def validar_directorio_estado():
+    """
+    Evita escribir accidentalmente el estado en el repositorio
+    principal si el workflow no preparó el worktree acp-state.
+    """
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        return
+
+    resultado = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        cwd=STATE,
+        capture_output=True,
+        text=True,
+    )
+
+    if resultado.returncode != 0:
+        raise RuntimeError(
+            "ACP_STATE no es un repositorio Git. "
+            "El workflow debe preparar la rama acp-state."
+        )
+
+    raiz_git = Path(resultado.stdout.strip()).resolve()
+
+    if raiz_git != STATE:
+        raise RuntimeError(
+            "ACP_STATE debe ser la raíz del worktree acp-state, "
+            "no una carpeta normal del repositorio principal."
+        )
+
+
+def guardar_estado_git():
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        return
+
+    validar_directorio_estado()
+
+    subprocess.run(
+        ["git", "add", "--all"],
+        cwd=STATE,
+        check=True,
+    )
+
+    cambios = subprocess.run(
+        ["git", "diff", "--cached", "--quiet"],
+        cwd=STATE,
+    ).returncode
+
+    if cambios == 1:
+        subprocess.run(
+            ["git", "commit", "-m", "Update ACP publication state"],
+            cwd=STATE,
+            check=True,
+        )
+    elif cambios != 0:
+        raise RuntimeError(
+            "No se pudo comprobar el estado de Git."
+        )
+
+    # Envía también un commit local cuyo push previo falló.
+    subprocess.run(
+        ["git", "push", "origin", "HEAD:acp-state"],
+        cwd=STATE,
+        check=True,
+    )
 
 
 # ================================================================
-# 04 · CONSULTAS HTTP DE LECTURA
+# 04 · HTTP DE LECTURA
 # ================================================================
 
 def obtener(url, **kwargs):
@@ -209,9 +260,11 @@ def obtener(url, **kwargs):
                 timeout=(20, 150),
                 **kwargs,
             )
+
         except (requests.Timeout, requests.ConnectionError):
             if intento == 3:
                 raise
+
             time.sleep(3 * 2**intento)
             continue
 
@@ -220,21 +273,27 @@ def obtener(url, **kwargs):
             raise FileNotFoundError(url)
 
         if respuesta.status_code in (429, 500, 502, 503, 504):
+            codigo = respuesta.status_code
             retry_after = respuesta.headers.get("Retry-After", "")
+
             espera = (
                 float(retry_after)
                 if retry_after.isdigit()
                 else 3 * 2**intento
             )
-            codigo = respuesta.status_code
+
             respuesta.close()
 
             if intento == 3 or espera > 120:
                 raise RuntimeError(
-                    f"Fuente no disponible: HTTP {codigo}. "
-                    "Vuelve a ejecutar más tarde."
+                    f"Fuente limitada o no disponible: HTTP {codigo}."
                 )
 
+            print(
+                f"HTTP {codigo}. "
+                f"Reintentando en {espera:.0f} segundos…",
+                flush=True,
+            )
             time.sleep(espera)
             continue
 
@@ -250,106 +309,124 @@ def obtener(url, **kwargs):
 
 
 # ================================================================
-# 05 · SISMOS DE LOS ÚLTIMOS 10 MINUTOS
+# 05 · ÚLTIMO SISMO EN LOS ÚLTIMOS 10 MINUTOS
 # ================================================================
 
-def consultar_sismos_recientes():
+def consultar_ultimo_sismo_reciente():
+    """
+    Consulta exclusivamente el evento más reciente de la ventana.
+    Nunca lee queue.json ni recupera pendientes antiguos.
+    """
     ahora = pd.Timestamp.now(tz="UTC")
     inicio = ahora - pd.Timedelta(minutes=VENTANA_MINUTOS)
 
-    print("\nConsulta USGS")
-    print(f"Magnitud mínima: {MAGNITUD_MINIMA}")
-    print("Desde:", inicio.strftime("%Y-%m-%d %H:%M:%S UTC"))
-    print("Hasta:", ahora.strftime("%Y-%m-%d %H:%M:%S UTC"))
+    print("\nConsulta USGS", flush=True)
+    print("Versión:", VERSION, flush=True)
+    print("Desde:", inicio.isoformat(), flush=True)
+    print("Hasta:", ahora.isoformat(), flush=True)
+    print("Magnitud mínima:", MAGNITUD_MINIMA, flush=True)
 
-    encontrados = {}
-    offset = 1
+    respuesta = obtener(
+        "https://earthquake.usgs.gov/fdsnws/event/1/query",
+        params={
+            "format": "geojson",
+            "starttime": inicio.isoformat(),
+            "endtime": ahora.isoformat(),
+            "minmagnitude": MAGNITUD_MINIMA,
+            "eventtype": "earthquake",
+            "orderby": "time",
+            "limit": 1,
+        },
+        headers={"Cache-Control": "no-cache"},
+    )
 
-    while True:
-        respuesta = obtener(
-            "https://earthquake.usgs.gov/fdsnws/event/1/query",
-            params={
-                "format": "geojson",
-                "starttime": inicio.isoformat(),
-                "endtime": ahora.isoformat(),
-                "minmagnitude": MAGNITUD_MINIMA,
-                "eventtype": "earthquake",
-                "orderby": "time-asc",
-                "limit": 20000,
-                "offset": offset,
-            },
-        )
+    try:
+        datos = respuesta.json()
+    finally:
+        respuesta.close()
 
-        try:
-            eventos = respuesta.json().get("features", [])
-        finally:
-            respuesta.close()
-
-        for evento in eventos:
-            propiedades = evento.get("properties", {})
-            magnitud = propiedades.get("mag")
-            tiempo = propiedades.get("time")
-
-            if magnitud is None or tiempo is None:
-                continue
-
-            fecha = pd.to_datetime(tiempo, unit="ms", utc=True)
-
-            if (
-                float(magnitud) >= MAGNITUD_MINIMA
-                and inicio <= fecha <= ahora
-            ):
-                encontrados[evento["id"]] = evento
-
-        if len(eventos) < 20000:
-            break
-
-        offset += 20000
+    eventos = datos.get("features", [])
 
     guardar_json(ROOT / "last_query.json", {
+        "version": VERSION,
         "window_start_utc": inicio.isoformat(),
         "window_end_utc": ahora.isoformat(),
         "minimum_magnitude": MAGNITUD_MINIMA,
-        "events": encontrados,
+        "features": eventos,
     })
 
-    pendientes = []
+    if not eventos:
+        print(
+            f"No hay sismos M >= {MAGNITUD_MINIMA:g} "
+            f"en los últimos {VENTANA_MINUTOS} minutos.",
+            flush=True,
+        )
+        return None
 
-    for evento in encontrados.values():
-        estado = leer_json(ruta_estado(evento))
+    evento = eventos[0]
+    propiedades = evento.get("properties", {})
 
-        # En modo prueba permite regenerar un evento publicado.
-        if PUBLICAR_EN_X:
-            if estado.get("status") == "published":
-                print(
-                    "Ya publicado:",
-                    evento["id"],
-                    estado.get("post_url", ""),
-                )
-                continue
+    tiempo = propiedades.get("time")
+    magnitud = propiedades.get("mag")
 
-            if estado.get("status") == "posting":
-                print(
-                    "Publicación anterior incierta. "
-                    "Revisa la cuenta de X y el archivo:",
-                    ruta_estado(evento),
-                )
-                continue
+    if tiempo is None or magnitud is None:
+        raise RuntimeError(
+            "USGS devolvió un evento sin fecha o magnitud."
+        )
 
-        pendientes.append(evento)
-
-    pendientes.sort(
-        key=lambda evento: evento["properties"]["time"]
+    fecha_sismo = pd.to_datetime(
+        tiempo,
+        unit="ms",
+        utc=True,
     )
 
-    print("Eventos encontrados:", len(encontrados))
-    print("Eventos pendientes:", len(pendientes))
+    # Comprobación local independiente del filtro de USGS.
+    if not (
+        inicio <= fecha_sismo <= ahora
+        and float(magnitud) >= MAGNITUD_MINIMA
+    ):
+        print(
+            "Evento descartado: no cumple la ventana o magnitud.",
+            flush=True,
+        )
+        print("ID:", evento.get("id"), flush=True)
+        print("Fecha:", fecha_sismo.isoformat(), flush=True)
+        return None
 
-    return pendientes
+    antiguedad = (ahora - fecha_sismo).total_seconds() / 60
+
+    print("\nÚltimo sismo reciente:", flush=True)
+    print("ID:", evento["id"], flush=True)
+    print("Magnitud:", magnitud, flush=True)
+    print("Lugar:", propiedades.get("place", ""), flush=True)
+    print("Fecha UTC:", fecha_sismo.isoformat(), flush=True)
+    print(f"Antigüedad: {antiguedad:.2f} minutos", flush=True)
+
+    if PUBLICAR_EN_X:
+        estado = leer_json(ruta_estado(evento))
+
+        if estado.get("status") == "published":
+            print(
+                "Este evento ya está publicado:",
+                estado.get("post_url", ""),
+                flush=True,
+            )
+            return None
+
+        if estado.get("status") == "posting":
+            print(
+                "Publicación anterior incierta. "
+                "Revisa X y el registro:",
+                ruta_estado(evento),
+                flush=True,
+            )
+            return None
+
+    return evento
 
 
 # ================================================================
-# 06 · DATOS NOAA GFS
+# 06 · NOAA GFS
 # ================================================================
 
 def url_noaa(fecha):
@@ -363,9 +440,12 @@ def url_noaa(fecha):
     )
 
 
-def leer_campo(url, lineas, nombre, latitudes, longitudes, fecha):
+def leer_campo(
+    url, lineas, nombre, latitudes, longitudes, fecha
+):
     coincidencias = [
-        i for i, linea in enumerate(lineas)
+        i
+        for i, linea in enumerate(lineas)
         if f":{nombre}:2 m above ground:" in linea
     ]
 
@@ -377,7 +457,9 @@ def leer_campo(url, lineas, nombre, latitudes, longitudes, fecha):
     indice = coincidencias[0]
 
     if indice + 1 >= len(lineas):
-        raise RuntimeError("No se puede determinar el rango GRIB.")
+        raise RuntimeError(
+            "No se puede determinar el rango GRIB."
+        )
 
     inicio = int(lineas[indice].split(":")[1])
     fin = int(lineas[indice + 1].split(":")[1]) - 1
@@ -391,9 +473,12 @@ def leer_campo(url, lineas, nombre, latitudes, longitudes, fecha):
     try:
         if respuesta.status_code != 206:
             raise RuntimeError(
-                "El servidor no respetó la descarga parcial GRIB."
+                "El servidor ignoró HTTP Range; "
+                "se evita descargar el archivo global completo."
             )
+
         contenido = respuesta.content
+
     finally:
         respuesta.close()
 
@@ -407,7 +492,9 @@ def leer_campo(url, lineas, nombre, latitudes, longitudes, fecha):
             codes_get(identificador, "gridType") != "regular_ll"
             or codes_get(identificador, "scanningMode") != 0
         ):
-            raise RuntimeError("Orden de grilla no compatible.")
+            raise RuntimeError(
+                "Orden de grilla GFS no compatible."
+            )
 
         fecha_valida = pd.to_datetime(
             str(codes_get(identificador, "validityDate"))
@@ -417,32 +504,43 @@ def leer_campo(url, lineas, nombre, latitudes, longitudes, fecha):
         )
 
         if fecha_valida != fecha:
-            raise RuntimeError("Fecha GRIB distinta de la solicitada.")
+            raise RuntimeError(
+                "Fecha GRIB diferente de la solicitada."
+            )
 
         nx = int(codes_get(identificador, "Ni"))
         ny = int(codes_get(identificador, "Nj"))
 
         dx = float(codes_get(
-            identificador, "iDirectionIncrementInDegrees"
+            identificador,
+            "iDirectionIncrementInDegrees",
         ))
         dy = float(codes_get(
-            identificador, "jDirectionIncrementInDegrees"
+            identificador,
+            "jDirectionIncrementInDegrees",
         ))
         lon0 = float(codes_get(
-            identificador, "longitudeOfFirstGridPointInDegrees"
+            identificador,
+            "longitudeOfFirstGridPointInDegrees",
         ))
         lat0 = float(codes_get(
-            identificador, "latitudeOfFirstGridPointInDegrees"
+            identificador,
+            "latitudeOfFirstGridPointInDegrees",
         ))
 
         columnas = (
             np.rint(((longitudes - lon0) % 360) / dx)
             .astype(int) % nx
         )
-        filas = np.rint((lat0 - latitudes) / dy).astype(int)
+
+        filas = np.rint(
+            (lat0 - latitudes) / dy
+        ).astype(int)
 
         if np.any(filas < 0) or np.any(filas >= ny):
-            raise RuntimeError("Latitudes fuera de la grilla.")
+            raise RuntimeError(
+                "Latitudes fuera de la grilla."
+            )
 
         valores = (
             codes_get_values(identificador)
@@ -452,7 +550,7 @@ def leer_campo(url, lineas, nombre, latitudes, longitudes, fecha):
 
         ausente = codes_get(identificador, "missingValue")
         valores[
-            (valores == ausente) | ~np.isfinite(valores)
+            (valores == ausente) | (~np.isfinite(valores))
         ] = np.nan
 
         return valores
@@ -465,7 +563,8 @@ def descargar_acp(fecha, latitudes, longitudes):
     url = url_noaa(fecha)
 
     identificacion = (
-        "acp-v1|" + url
+        "acp-v1|"
+        + url
         + str((
             latitudes[0],
             latitudes[-1],
@@ -474,6 +573,7 @@ def descargar_acp(fecha, latitudes, longitudes):
             PASO_GRILLA,
         ))
     )
+
     clave = hashlib.sha256(
         identificacion.encode()
     ).hexdigest()
@@ -482,24 +582,43 @@ def descargar_acp(fecha, latitudes, longitudes):
 
     if archivo.exists():
         try:
-            valores = np.load(archivo, allow_pickle=False)
-            if valores.shape == (len(latitudes), len(longitudes)):
+            valores = np.load(
+                archivo,
+                allow_pickle=False,
+            )
+
+            if valores.shape == (
+                len(latitudes),
+                len(longitudes),
+            ):
                 return valores
+
         except (ValueError, OSError):
             archivo.unlink(missing_ok=True)
 
     respuesta = obtener(url + ".idx")
+
     try:
         lineas = respuesta.text.strip().splitlines()
     finally:
         respuesta.close()
 
     temperatura = leer_campo(
-        url, lineas, "TMP", latitudes, longitudes, fecha
+        url,
+        lineas,
+        "TMP",
+        latitudes,
+        longitudes,
+        fecha,
     ) - 273.15
 
     humedad = leer_campo(
-        url, lineas, "RH", latitudes, longitudes, fecha
+        url,
+        lineas,
+        "RH",
+        latitudes,
+        longitudes,
+        fecha,
     )
 
     validos = (
@@ -510,7 +629,9 @@ def descargar_acp(fecha, latitudes, longitudes):
     )
 
     acp = np.full(
-        temperatura.shape, np.nan, dtype=np.float32
+        temperatura.shape,
+        np.nan,
+        dtype=np.float32,
     )
 
     acp[validos] = (
@@ -520,8 +641,10 @@ def descargar_acp(fecha, latitudes, longitudes):
     )
 
     temporal = archivo.with_suffix(".tmp")
+
     with temporal.open("wb") as f:
         np.save(f, acp)
+
     temporal.replace(archivo)
 
     return acp
@@ -532,24 +655,43 @@ def descargar_acp(fecha, latitudes, longitudes):
 # ================================================================
 
 def construir_video(
-    evento, fechas, cubo, latitudes, longitudes, salida
+    evento,
+    fechas,
+    cubo,
+    latitudes,
+    longitudes,
+    salida,
 ):
     fecha_sismo = pd.to_datetime(
-        evento["properties"]["time"], unit="ms", utc=True
+        evento["properties"]["time"],
+        unit="ms",
+        utc=True,
     )
-    longitud, latitud, _ = evento["geometry"]["coordinates"]
 
-    ix = int(np.argmin(np.abs(longitudes - longitud)))
-    iy = int(np.argmin(np.abs(latitudes - latitud)))
+    longitud, latitud, _ = (
+        evento["geometry"]["coordinates"]
+    )
+
+    ix = int(np.argmin(
+        np.abs(longitudes - longitud)
+    ))
+    iy = int(np.argmin(
+        np.abs(latitudes - latitud)
+    ))
 
     serie = cubo[:, iy, ix]
     muestras = serie[np.isfinite(serie)].astype(float)
 
-    promedio = float(muestras.mean()) if muestras.size else None
+    promedio = (
+        float(muestras.mean())
+        if muestras.size else None
+    )
+
     desviacion = (
         float(muestras.std(ddof=1))
         if muestras.size >= 2 else None
     )
+
     umbral = (
         promedio + SIGMAS_THRESHOLD * desviacion
         if desviacion is not None else None
@@ -567,7 +709,10 @@ def construir_video(
         ),
     }
 
-    guardar_json(salida / "statistics.json", estadisticas)
+    guardar_json(
+        salida / "statistics.json",
+        estadisticas,
+    )
 
     tabla = pd.DataFrame({
         "time_utc": fechas,
@@ -576,18 +721,24 @@ def construir_video(
             umbral if umbral is not None else np.nan
         ),
         "source": [
-            "analysis" if fecha.hour % 6 == 0
+            "analysis"
+            if fecha.hour % 6 == 0
             else f"{fecha.hour % 6}h forecast"
             for fecha in fechas
         ],
     })
+
     tabla["above_threshold"] = [
         bool(valor > umbral)
         if umbral is not None and np.isfinite(valor)
         else pd.NA
         for valor in serie
     ]
-    tabla.to_csv(salida / "hourly_ACP.csv", index=False)
+
+    tabla.to_csv(
+        salida / "hourly_ACP.csv",
+        index=False,
+    )
 
     np.savez_compressed(
         salida / "ACP_grids.npz",
@@ -597,7 +748,11 @@ def construir_video(
         time_utc=fechas.astype(str).to_numpy(dtype=str),
     )
 
-    maximo = max(float(np.nanmax(cubo)), 0.001)
+    maximo = max(
+        float(np.nanmax(cubo)),
+        0.001,
+    )
+
     colores = plt.get_cmap("jet").copy()
     colores.set_bad("#c7cdd0")
 
@@ -608,7 +763,8 @@ def construir_video(
     )
 
     distribucion = figura.add_gridspec(
-        2, 2,
+        2,
+        2,
         height_ratios=[2.4, 1],
         width_ratios=[1, 0.045],
         hspace=0.32,
@@ -618,13 +774,21 @@ def construir_video(
     proyeccion = ccrs.PlateCarree(
         central_longitude=longitud
     )
-    mapa = figura.add_subplot(
-        distribucion[0, 0], projection=proyeccion
-    )
-    barra = figura.add_subplot(distribucion[0, 1])
-    grafico = figura.add_subplot(distribucion[1, :])
 
-    # Longitudes relativas para cruzar el antimeridiano.
+    mapa = figura.add_subplot(
+        distribucion[0, 0],
+        projection=proyeccion,
+    )
+
+    barra = figura.add_subplot(
+        distribucion[0, 1]
+    )
+
+    grafico = figura.add_subplot(
+        distribucion[1, :]
+    )
+
+    # Coordenadas relativas para manejar el antimeridiano.
     x = longitudes - longitud
 
     mapa.set_extent([
@@ -645,11 +809,16 @@ def construir_video(
         transform=proyeccion,
     )
 
-    mapa.coastlines(resolution="110m", linewidth=0.7)
+    mapa.coastlines(
+        resolution="110m",
+        linewidth=0.7,
+    )
+
     mapa.add_feature(
         cfeature.BORDERS.with_scale("110m"),
         linewidth=0.5,
     )
+
     mapa.plot(
         0,
         latitud,
@@ -666,10 +835,15 @@ def construir_video(
         linewidth=0.3,
         alpha=0.5,
     )
+
     rejilla.top_labels = False
     rejilla.right_labels = False
 
-    figura.colorbar(imagen, cax=barra, label="ACP (eV)")
+    figura.colorbar(
+        imagen,
+        cax=barra,
+        label="ACP (eV)",
+    )
 
     grafico.plot(
         fechas,
@@ -696,11 +870,15 @@ def construir_video(
         umbral if umbral is not None else 0,
         1e-6,
     )
+
     grafico.set_ylim(0, limite_y * 1.12)
 
     grafico.legend(
-        loc="upper left", fontsize=7, framealpha=0.9
+        loc="upper left",
+        fontsize=7,
+        framealpha=0.9,
     )
+
     grafico.set(
         xlim=(
             fecha_sismo - pd.Timedelta(days=DIAS_PREVIOS),
@@ -709,23 +887,43 @@ def construir_video(
         ylabel="ACP (eV)",
         xlabel="Day (UTC) — hourly samples",
     )
+
     grafico.grid(alpha=0.2)
+
     grafico.xaxis.set_major_locator(
         mdates.DayLocator(interval=3)
     )
+
     grafico.xaxis.set_major_formatter(
-        mdates.DateFormatter("%d %b", tz=fecha_sismo.tz)
+        mdates.DateFormatter(
+            "%d %b",
+            tz=fecha_sismo.tz,
+        )
     )
-    grafico.tick_params(axis="x", labelsize=8)
+
+    grafico.tick_params(
+        axis="x",
+        labelsize=8,
+    )
 
     puntero = grafico.axvline(
-        fechas[0], color="#c44c28", linewidth=1.8
-    )
-    punto, = grafico.plot(
-        [], [], "o", color="#c44c28", markersize=4
+        fechas[0],
+        color="#c44c28",
+        linewidth=1.8,
     )
 
-    lon_punto = ((longitudes[ix] + 180) % 360) - 180
+    punto, = grafico.plot(
+        [],
+        [],
+        "o",
+        color="#c44c28",
+        markersize=4,
+    )
+
+    lon_punto = (
+        (longitudes[ix] + 180) % 360
+    ) - 180
+
     grafico.set_title(
         "Grid point nearest epicenter: "
         f"{latitudes[iy]:.2f}°, {lon_punto:.2f}°",
@@ -733,10 +931,14 @@ def construir_video(
     )
 
     titulo = figura.suptitle(
-        "", fontsize=12, color="#16382f"
+        "",
+        fontsize=12,
+        color="#16382f",
     )
+
     figura.text(
-        0.1, 0.025,
+        0.1,
+        0.025,
         "Exploratory ACP · Statistical threshold, "
         "not a validated seismic alarm",
         fontsize=8,
@@ -756,19 +958,32 @@ def construir_video(
     )
 
     archivo_video = (
-        salida / f"ACP_{DIAS_PREVIOS}days_{FPS_ESCENAS}fps.mp4"
+        salida
+        / f"ACP_{DIAS_PREVIOS}days_{FPS_ESCENAS}fps.mp4"
     )
 
-    lugar = evento["properties"].get("place") or evento["id"]
+    lugar = (
+        evento["properties"].get("place")
+        or evento["id"]
+    )
 
     try:
-        with escritor.saving(figura, str(archivo_video), 100):
+        with escritor.saving(
+            figura,
+            str(archivo_video),
+            100,
+        ):
             for k, fecha in enumerate(
-                tqdm(fechas, desc="Generando MP4")
+                tqdm(
+                    fechas,
+                    desc="Generando MP4",
+                    mininterval=10,
+                )
             ):
                 imagen.set_array(
                     np.ma.masked_invalid(cubo[k]).ravel()
                 )
+
                 puntero.set_xdata([fecha, fecha])
                 punto.set_data([fecha], [serie[k]])
 
@@ -787,12 +1002,19 @@ def construir_video(
                     )
 
                 escritor.grab_frame()
+
     finally:
         plt.close(figura)
 
-    cobertura_serie = float(np.isfinite(serie).mean())
+    cobertura_serie = float(
+        np.isfinite(serie).mean()
+    )
 
-    return archivo_video, cobertura_serie, estadisticas
+    return (
+        archivo_video,
+        cobertura_serie,
+        estadisticas,
+    )
 
 
 # ================================================================
@@ -804,18 +1026,23 @@ def publicar(video, evento, salida):
     anterior = leer_json(archivo_estado)
 
     if anterior.get("status") == "published":
-        print("Ya publicado:", anterior.get("post_url"))
+        print(
+            "Ya publicado:",
+            anterior.get("post_url"),
+            flush=True,
+        )
         return
 
     if anterior.get("status") == "posting":
         raise RuntimeError(
-            "La publicación anterior tiene resultado incierto. "
-            f"Revisa X y este registro: {archivo_estado}"
+            "Publicación anterior incierta. "
+            f"Revisa X y {archivo_estado}."
         )
 
     validar_credenciales()
 
     sesion = requests.Session()
+
     sesion.auth = OAuth1(
         X_API_KEY.strip(),
         X_API_SECRET.strip(),
@@ -823,7 +1050,12 @@ def publicar(video, evento, salida):
         X_ACCESS_TOKEN_SECRET.strip(),
     )
 
-    def llamar(metodo, endpoint, reintentar=False, **kwargs):
+    def llamar(
+        metodo,
+        endpoint,
+        reintentar=False,
+        **kwargs,
+    ):
         intentos = 5 if reintentar else 1
 
         for intento in range(intentos):
@@ -834,15 +1066,25 @@ def publicar(video, evento, salida):
                     timeout=(20, 180),
                     **kwargs,
                 )
-            except (requests.Timeout, requests.ConnectionError):
+
+            except (
+                requests.Timeout,
+                requests.ConnectionError,
+            ):
                 if intento == intentos - 1:
                     raise RuntimeError(
-                        f"Conexión con X interrumpida: "
+                        "Conexión con X interrumpida: "
                         f"{metodo} {endpoint}"
                     ) from None
 
                 espera = 5 * 2**intento
-                print(f"Conexión con X fallida. Reintento en {espera}s.")
+
+                print(
+                    "Conexión con X fallida. "
+                    f"Reintento en {espera}s.",
+                    flush=True,
+                )
+
                 time.sleep(espera)
                 continue
 
@@ -856,11 +1098,19 @@ def publicar(video, evento, salida):
                     respuesta.close()
 
             codigo = respuesta.status_code
-            detalle = ocultar_secretos(respuesta.text[:800])
-            retry_after = respuesta.headers.get("Retry-After", "")
+            detalle = ocultar_secretos(
+                respuesta.text[:800]
+            )
+            retry_after = respuesta.headers.get(
+                "Retry-After",
+                "",
+            )
+
             respuesta.close()
 
-            temporal = codigo in (429, 500, 502, 503, 504)
+            temporal = codigo in (
+                429, 500, 502, 503, 504
+            )
 
             if (
                 reintentar
@@ -875,20 +1125,33 @@ def publicar(video, evento, salida):
 
                 if espera > 300:
                     raise RuntimeError(
-                        f"X HTTP {codigo}: espera requerida "
-                        f"de {espera:.0f}s. {detalle}"
+                        f"X HTTP {codigo}: "
+                        f"espera requerida de {espera:.0f}s. "
+                        f"{detalle}"
                     )
 
-                print(f"X HTTP {codigo}. Reintento en {espera:.0f}s.")
+                print(
+                    f"X HTTP {codigo}. "
+                    f"Reintento en {espera:.0f}s.",
+                    flush=True,
+                )
+
                 time.sleep(espera)
                 continue
 
-            raise RuntimeError(f"X HTTP {codigo}: {detalle}")
+            raise RuntimeError(
+                f"X HTTP {codigo}: {detalle}"
+            )
 
-        raise RuntimeError("No se pudo completar la solicitud a X.")
+        raise RuntimeError(
+            "No se pudo completar la solicitud a X."
+        )
 
     try:
-        print("\nIniciando carga del video en X…")
+        print(
+            "\nIniciando carga del video en X…",
+            flush=True,
+        )
 
         respuesta = llamar(
             "POST",
@@ -900,13 +1163,19 @@ def publicar(video, evento, salida):
                 "media_category": "tweet_video",
             },
         )
-        media_id = str(respuesta["data"]["id"])
+
+        media_id = str(
+            respuesta["data"]["id"]
+        )
 
         with video.open("rb") as archivo:
             segmento = 0
 
             while True:
-                contenido = archivo.read(4 * 1024 * 1024)
+                contenido = archivo.read(
+                    4 * 1024 * 1024
+                )
+
                 if not contenido:
                     break
 
@@ -914,7 +1183,9 @@ def publicar(video, evento, salida):
                     "POST",
                     f"/media/upload/{media_id}/append",
                     reintentar=True,
-                    data={"segment_index": str(segmento)},
+                    data={
+                        "segment_index": str(segmento),
+                    },
                     files={
                         "media": (
                             "chunk.mp4",
@@ -923,10 +1194,15 @@ def publicar(video, evento, salida):
                         )
                     },
                 )
-                segmento += 1
-                print(f"Segmento cargado: {segmento}")
 
-        # No se reintenta automáticamente finalize.
+                segmento += 1
+
+                print(
+                    f"Segmento cargado: {segmento}",
+                    flush=True,
+                )
+
+        # Sin reintento automático de finalize.
         estado = llamar(
             "POST",
             f"/media/upload/{media_id}/finalize",
@@ -935,7 +1211,10 @@ def publicar(video, evento, salida):
         limite = time.monotonic() + 900
 
         while True:
-            informacion = estado.get("processing_info", {})
+            informacion = estado.get(
+                "processing_info",
+                {},
+            )
             situacion = informacion.get("state")
 
             if situacion in (None, "succeeded"):
@@ -949,17 +1228,29 @@ def publicar(video, evento, salida):
 
             if time.monotonic() > limite:
                 raise RuntimeError(
-                    "Tiempo de procesamiento del video agotado."
+                    "Tiempo de procesamiento del video "
+                    "en X agotado."
                 )
 
             espera = min(
                 60,
-                max(1, float(
-                    informacion.get("check_after_secs", 5)
-                )),
+                max(
+                    1,
+                    float(
+                        informacion.get(
+                            "check_after_secs",
+                            5,
+                        )
+                    ),
+                ),
             )
 
-            print(f"X procesa el video; esperando {espera:.0f}s…")
+            print(
+                "X está procesando el video; "
+                f"esperando {espera:.0f}s…",
+                flush=True,
+            )
+
             time.sleep(espera)
 
             estado = llamar(
@@ -973,13 +1264,23 @@ def publicar(video, evento, salida):
             ).get("data", {})
 
         fecha = pd.to_datetime(
-            evento["properties"]["time"], unit="ms", utc=True
+            evento["properties"]["time"],
+            unit="ms",
+            utc=True,
         )
-        longitud, latitud, _ = evento["geometry"]["coordinates"]
-        lugar = evento["properties"].get("place") or "Global earthquake"
+
+        longitud, latitud, _ = (
+            evento["geometry"]["coordinates"]
+        )
+
+        lugar = (
+            evento["properties"].get("place")
+            or "Global earthquake"
+        )
 
         texto = (
-            f"M{evento['properties']['mag']:.1f} · {lugar[:50]}\n"
+            f"M{evento['properties']['mag']:.1f} · "
+            f"{lugar[:50]}\n"
             f"{fecha:%Y-%m-%d %H:%M UTC}\n"
             f"Epicenter: {coordenadas_texto(latitud, longitud)}\n"
             "30-day hourly ACP evolution.\n"
@@ -989,25 +1290,34 @@ def publicar(video, evento, salida):
         )
 
         (salida / "post_text.txt").write_text(
-            texto, encoding="utf-8"
+            texto,
+            encoding="utf-8",
         )
 
-        # Se guarda ANTES de enviar el tweet.
-        # Si se pierde la respuesta, no se repite automáticamente.
+        # Persistir ANTES de crear el tweet.
+        # Si la respuesta se pierde, no se vuelve a publicar
+        # automáticamente el mismo evento.
         guardar_json(archivo_estado, {
             "status": "posting",
             "event_id": evento["id"],
             "media_id": media_id,
-            "started_at_utc": pd.Timestamp.now(tz="UTC").isoformat(),
+            "earthquake_time_utc": fecha.isoformat(),
+            "started_at_utc": (
+                pd.Timestamp.now(tz="UTC").isoformat()
+            ),
         })
 
-        # No reintentar automáticamente la creación del tweet.
+        guardar_estado_git()
+
+        # No reintentar automáticamente POST /tweets.
         resultado = llamar(
             "POST",
             "/tweets",
             json={
                 "text": texto,
-                "media": {"media_ids": [media_id]},
+                "media": {
+                    "media_ids": [media_id],
+                },
             },
         )
 
@@ -1021,23 +1331,35 @@ def publicar(video, evento, salida):
             "event_id": evento["id"],
             "post_url": enlace,
             "media_id": media_id,
-            "published_at_utc": pd.Timestamp.now(tz="UTC").isoformat(),
+            "earthquake_time_utc": fecha.isoformat(),
+            "published_at_utc": (
+                pd.Timestamp.now(tz="UTC").isoformat()
+            ),
         })
 
-        print("\nPublicado correctamente:", enlace)
+        guardar_estado_git()
+
+        print(
+            "\nPublicado correctamente:",
+            enlace,
+            flush=True,
+        )
 
     finally:
         sesion.close()
 
 
 # ================================================================
-# 09 · PROCESAR UN EVENTO
+# 09 · PROCESAMIENTO DEL SISMO SELECCIONADO
 # ================================================================
 
 def procesar_evento(evento):
     fecha_sismo = pd.to_datetime(
-        evento["properties"]["time"], unit="ms", utc=True
+        evento["properties"]["time"],
+        unit="ms",
+        utc=True,
     )
+
     longitud, latitud, profundidad = (
         evento["geometry"]["coordinates"]
     )
@@ -1045,38 +1367,63 @@ def procesar_evento(evento):
     salida = ROOT / evento["id"]
     salida.mkdir(parents=True, exist_ok=True)
 
-    guardar_json(salida / "event.json", evento)
+    guardar_json(
+        salida / "event.json",
+        evento,
+    )
 
-    print("\n" + "=" * 64)
-    print("ID:", evento["id"])
-    print("Magnitud:", evento["properties"]["mag"])
-    print("Lugar:", evento["properties"].get("place", ""))
-    print("Fecha UTC:", fecha_sismo)
-    print("Epicentro:", coordenadas_texto(latitud, longitud))
-    print("Profundidad:", profundidad, "km")
-    print("Publicación en X:", PUBLICAR_EN_X)
-    print("=" * 64)
+    print("\nProcesando exclusivamente este evento:", flush=True)
+    print("ID:", evento["id"], flush=True)
+    print(
+        "Magnitud:",
+        evento["properties"]["mag"],
+        flush=True,
+    )
+    print(
+        "Lugar:",
+        evento["properties"].get("place", ""),
+        flush=True,
+    )
+    print("Fecha UTC:", fecha_sismo, flush=True)
+    print(
+        "Epicentro:",
+        coordenadas_texto(latitud, longitud),
+        flush=True,
+    )
+    print(
+        "Profundidad:",
+        profundidad,
+        "km",
+        flush=True,
+    )
 
     latitudes = np.arange(
         math.ceil(
-            max(-90, latitud - RADIO_LATITUD) / PASO_GRILLA
+            max(
+                -90,
+                latitud - RADIO_LATITUD,
+            ) / PASO_GRILLA
         ),
         math.floor(
-            min(90, latitud + RADIO_LATITUD) / PASO_GRILLA
+            min(
+                90,
+                latitud + RADIO_LATITUD,
+            ) / PASO_GRILLA
         ) + 1,
     ) * PASO_GRILLA
 
     longitudes = np.arange(
         math.ceil(
-            (longitud - RADIO_LONGITUD) / PASO_GRILLA
+            (longitud - RADIO_LONGITUD)
+            / PASO_GRILLA
         ),
         math.floor(
-            (longitud + RADIO_LONGITUD) / PASO_GRILLA
+            (longitud + RADIO_LONGITUD)
+            / PASO_GRILLA
         ) + 1,
     ) * PASO_GRILLA
 
-    # Exactamente 720 horas para 30 días, siempre anteriores
-    # al instante del sismo, incluso si ocurrió a una hora exacta.
+    # Siempre 720 horas anteriores al instante del sismo.
     ultima_hora = (
         fecha_sismo - pd.Timedelta(nanoseconds=1)
     ).floor("h")
@@ -1088,7 +1435,11 @@ def procesar_evento(evento):
     )
 
     cubo = np.full(
-        (len(fechas), len(latitudes), len(longitudes)),
+        (
+            len(fechas),
+            len(latitudes),
+            len(longitudes),
+        ),
         np.nan,
         dtype=np.float32,
     )
@@ -1096,21 +1447,37 @@ def procesar_evento(evento):
     faltantes = []
 
     for i, fecha in enumerate(
-        tqdm(fechas, desc="Descargando ACP horario")
+        tqdm(
+            fechas,
+            desc="Descargando ACP horario",
+            mininterval=10,
+        )
     ):
         try:
             cubo[i] = descargar_acp(
-                fecha, latitudes, longitudes
+                fecha,
+                latitudes,
+                longitudes,
             )
-        except FileNotFoundError:
-            faltantes.append(fecha.isoformat())
 
-    guardar_json(salida / "missing_times.json", faltantes)
+        except FileNotFoundError:
+            faltantes.append(
+                fecha.isoformat()
+            )
+
+    guardar_json(
+        salida / "missing_times.json",
+        faltantes,
+    )
 
     if not np.isfinite(cubo).any():
-        raise RuntimeError("No se recuperaron datos NOAA válidos.")
+        raise RuntimeError(
+            "No se recuperaron datos NOAA válidos."
+        )
 
-    cobertura_mapa = float(np.isfinite(cubo).mean())
+    cobertura_mapa = float(
+        np.isfinite(cubo).mean()
+    )
 
     video, cobertura_serie, estadisticas = construir_video(
         evento,
@@ -1122,43 +1489,57 @@ def procesar_evento(evento):
     )
 
     guardar_json(salida / "summary.json", {
+        "version": VERSION,
         "event_id": evento["id"],
+        "earthquake_time_utc": fecha_sismo.isoformat(),
         "hourly_slots": len(fechas),
         "duration_seconds": len(fechas) / FPS_ESCENAS,
         "scenes_per_second": FPS_ESCENAS,
         "map_coverage": cobertura_mapa,
         "chart_coverage": cobertura_serie,
         "missing_hours": len(faltantes),
-        "source": "NOAA GFS analyses and 1–5 hour forecasts",
+        "source": (
+            "NOAA GFS analyses and 1–5 hour forecasts"
+        ),
         "chart_statistics": estadisticas,
     })
 
-    print("\nVideo generado:", video)
-    print("Duración:", len(fechas) / FPS_ESCENAS, "segundos")
-    print(f"Cobertura del mapa: {cobertura_mapa:.1%}")
-    print(f"Cobertura del gráfico: {cobertura_serie:.1%}")
+    print("\nVideo generado:", video, flush=True)
+    print(
+        "Duración:",
+        len(fechas) / FPS_ESCENAS,
+        "segundos",
+        flush=True,
+    )
+    print(
+        f"Cobertura del mapa: {cobertura_mapa:.1%}",
+        flush=True,
+    )
+    print(
+        f"Cobertura del gráfico: {cobertura_serie:.1%}",
+        flush=True,
+    )
 
     if PUBLICAR_EN_X:
-        if min(cobertura_mapa, cobertura_serie) < (
-            COBERTURA_MINIMA_PUBLICACION
-        ):
+        if min(
+            cobertura_mapa,
+            cobertura_serie,
+        ) < COBERTURA_MINIMA_PUBLICACION:
             raise RuntimeError(
-                "Cobertura insuficiente para publicar. "
-                "Los resultados generados se conservan."
+                "Cobertura insuficiente para publicar."
             )
 
-        publicar(video, evento, salida)
+        publicar(
+            video,
+            evento,
+            salida,
+        )
+
     else:
-        print("Modo prueba: no se publica en X.")
-
-    display(Image(filename=str(salida / "ACP_map_chart.png")))
-
-    if MOSTRAR_VIDEO_EN_COLAB:
-        display(Video(
-            filename=str(video),
-            embed=True,
-            width=600,
-        ))
+        print(
+            "Modo prueba: no se publica en X.",
+            flush=True,
+        )
 
 
 # ================================================================
@@ -1166,67 +1547,137 @@ def procesar_evento(evento):
 # ================================================================
 
 def main():
-    pendientes = consultar_sismos_recientes()
+    print("=" * 64, flush=True)
+    print(
+        "Atmosphere Chemical Potential Monitor",
+        flush=True,
+    )
+    print("Versión:", VERSION, flush=True)
+    print(
+        "Archivo ejecutado:",
+        Path(__file__).resolve(),
+        flush=True,
+    )
+    print(
+        "GitHub commit:",
+        os.environ.get("GITHUB_SHA", "local"),
+        flush=True,
+    )
+    print(
+        "Publicación en X:",
+        PUBLICAR_EN_X,
+        flush=True,
+    )
+    print("=" * 64, flush=True)
 
-    if not pendientes:
+    # No se usa actualizar_cola() ni queue.json.
+    evento = consultar_ultimo_sismo_reciente()
+
+    if evento is None:
         print(
-            "\nNo hay sismos recientes pendientes. "
-            "No se descargan datos meteorológicos "
-            "ni se generan publicaciones."
+            "\nFinalizado: no hay un último sismo reciente "
+            "pendiente de publicación.",
+            flush=True,
         )
         return
 
     validar_credenciales()
 
-    print(
-        f"\nSe analizarán {len(pendientes)} eventos "
-        f"detectados en los últimos {VENTANA_MINUTOS} minutos."
+    if PUBLICAR_EN_X:
+        validar_directorio_estado()
+
+    # Segunda verificación, inmediatamente antes del análisis.
+    ahora = pd.Timestamp.now(tz="UTC")
+
+    fecha_sismo = pd.to_datetime(
+        evento["properties"]["time"],
+        unit="ms",
+        utc=True,
     )
 
-    fallidos = []
+    antiguedad_segundos = (
+        ahora - fecha_sismo
+    ).total_seconds()
 
-    # Todos los eventos detectados al inicio se procesan,
-    # aunque la generación de sus videos tome más de 10 minutos.
-    for evento in pendientes:
-        try:
-            procesar_evento(evento)
+    if not (
+        0 <= antiguedad_segundos <= VENTANA_MINUTOS * 60
+    ):
+        print(
+            "\nEvento descartado: salió de la ventana "
+            f"de {VENTANA_MINUTOS} minutos antes del análisis.",
+            flush=True,
+        )
+        return
 
-        except Exception as error:
-            mensaje = ocultar_secretos(str(error))
-            print(
-                "\nNo se pudo completar el evento:",
-                evento["id"],
-                mensaje,
-            )
-            fallidos.append(evento["id"])
+    salida = ROOT / evento["id"]
+    salida.mkdir(parents=True, exist_ok=True)
 
-            archivo = ruta_estado(evento)
-            anterior = leer_json(archivo)
+    guardar_json(salida / "selection.json", {
+        "version": VERSION,
+        "event_id": evento["id"],
+        "earthquake_time_utc": fecha_sismo.isoformat(),
+        "accepted_at_utc": ahora.isoformat(),
+        "age_seconds_at_acceptance": antiguedad_segundos,
+        "window_minutes": VENTANA_MINUTOS,
+        "minimum_magnitude": MAGNITUD_MINIMA,
+    })
 
-            if (
-                PUBLICAR_EN_X
-                and anterior.get("status")
-                not in ("posting", "published")
-            ):
-                guardar_json(archivo, {
-                    "status": "failed",
-                    "event_id": evento["id"],
-                    "attempts": anterior.get("attempts", 0) + 1,
-                    "last_error": mensaje,
-                    "updated_at_utc": (
-                        pd.Timestamp.now(tz="UTC").isoformat()
-                    ),
-                })
+    print(
+        "\nEvento aceptado:",
+        evento["id"],
+        flush=True,
+    )
+    print(
+        f"Antigüedad al comenzar: "
+        f"{antiguedad_segundos / 60:.2f} minutos.",
+        flush=True,
+    )
 
-    print("\nResultados disponibles en:", ROOT)
-    print("Registros de publicación:", STATE)
+    try:
+        procesar_evento(evento)
 
-    if fallidos:
-        raise RuntimeError(
-            "Eventos incompletos: " + ", ".join(fallidos)
+    except Exception as error:
+        mensaje = ocultar_secretos(str(error))
+
+        print(
+            "\nNo se pudo completar el evento:",
+            evento["id"],
+            mensaje,
+            flush=True,
         )
 
-    print("\nProcesamiento terminado.")
+        archivo = ruta_estado(evento)
+        anterior = leer_json(archivo)
+
+        # No sobrescribir una publicación confirmada
+        # ni una publicación cuyo resultado es incierto.
+        if (
+            PUBLICAR_EN_X
+            and anterior.get("status")
+            not in ("posting", "published")
+        ):
+            guardar_json(archivo, {
+                "status": "failed",
+                "event_id": evento["id"],
+                "earthquake_time_utc": fecha_sismo.isoformat(),
+                "attempts": anterior.get("attempts", 0) + 1,
+                "last_error": mensaje,
+                "updated_at_utc": (
+                    pd.Timestamp.now(tz="UTC").isoformat()
+                ),
+            })
+
+            guardar_estado_git()
+
+        raise RuntimeError(
+            f"Evento incompleto: {evento['id']}. {mensaje}"
+        ) from None
+
+    print(
+        "\nProcesamiento terminado.",
+        flush=True,
+    )
 
 
-main()
+if __name__ == "__main__":
+    main()
