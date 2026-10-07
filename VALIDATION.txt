@@ -1,0 +1,3 @@
+Base previously tested: NOAA real ranged GRIB decoding and combined H264 rendering.
+Latest changes checked: Python syntax; 720/5 = 144 seconds; threshold uses finite samples and sample standard deviation; tweet includes coordinates; scheduled workflow retains persistent publication state.
+Live deployment and authenticated X publishing not executed from this workspace.
