@@ -9,28 +9,45 @@ on:
       publish:
         description: "Publicar en X (false = solo generar resultados)"
         type: boolean
+        required: true
         default: true
 
 permissions:
   contents: write
 
+# Evita que dos ejecuciones publiquen el mismo evento
+# o modifiquen simultáneamente la rama de estado.
 concurrency:
   group: acp-earthquake-publisher
   cancel-in-progress: false
 
 jobs:
   monitor:
+    name: Detectar sismos, generar ACP y publicar
     runs-on: ubuntu-latest
     timeout-minutes: 350
+
+    defaults:
+      run:
+        shell: bash
 
     env:
       ACP_STATE: ${{ github.workspace }}/.state
       ACP_OUTPUT: ${{ github.workspace }}/output
 
-      MAX_EVENTS_PER_RUN: "1"
+      # 0 = procesar todos los eventos pendientes.
+      MAX_EVENTS_PER_RUN: "0"
 
-      PUBLISH_TO_X: ${{ github.event_name == 'schedule' && 'true' || inputs.publish && 'true' || 'false' }}
+      # Cron: publica.
+      # Ejecución manual/API: respeta el parámetro publish.
+      PUBLISH_TO_X: ${{ (github.event_name == 'schedule' || inputs.publish == true) && 'true' || 'false' }}
 
+      PYTHONUNBUFFERED: "1"
+      MPLBACKEND: Agg
+
+      # Disponibles si el Python utiliza variables de entorno.
+      # Si las credenciales están escritas dentro del .py,
+      # se utilizan los valores definidos en ese archivo.
       X_API_KEY: ${{ secrets.X_API_KEY }}
       X_API_SECRET: ${{ secrets.X_API_SECRET }}
       X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
@@ -39,29 +56,52 @@ jobs:
     steps:
       - name: Descargar código
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
+          cache-dependency-path: requirements.txt
 
       - name: Restaurar estado persistente
-        shell: bash
+        id: state
         run: |
+          set -euo pipefail
+
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-          if git ls-remote --exit-code --heads origin acp-state >/dev/null; then
-            git fetch origin acp-state
-            git worktree add --detach .state FETCH_HEAD
-          else
-            git worktree add --detach .state HEAD
-            git -C .state checkout --orphan acp-state
-            git -C .state rm -rf .
+          # Una consulta fallida no debe confundirse con
+          # la ausencia de la rama de estado.
+          if ! remote_state="$(git ls-remote --heads origin refs/heads/acp-state)"; then
+            echo "::error::No se pudo consultar la rama acp-state."
+            exit 1
           fi
 
+          if [[ -n "$remote_state" ]]; then
+            git fetch --no-tags origin refs/heads/acp-state
+            git worktree add --detach "$ACP_STATE" FETCH_HEAD
+          else
+            git worktree add --detach "$ACP_STATE" HEAD
+            git -C "$ACP_STATE" checkout --orphan acp-state
+            git -C "$ACP_STATE" rm -rf --ignore-unmatch .
+
+            git -C "$ACP_STATE" commit \
+              --allow-empty \
+              -m "Initialize ACP persistent state"
+
+            git -C "$ACP_STATE" push origin HEAD:acp-state
+          fi
+
+          mkdir -p "$ACP_OUTPUT/cache"
+
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
       - name: Restaurar caché NOAA
+        id: noaa_cache
         uses: actions/cache/restore@v4
         with:
           path: output/cache
@@ -70,13 +110,37 @@ jobs:
             acp-noaa-v1-
 
       - name: Instalar dependencias
-        run: pip install -r requirements.txt
+        run: |
+          set -euo pipefail
+          python -m pip install -r requirements.txt
 
-      - name: Analizar y publicar
-        run: python acp_monitor.py
+      - name: Comprobar sintaxis del script
+        run: python -m py_compile acp_monitor.py
+
+      - name: Detectar sismos, analizar y publicar
+        run: python -u acp_monitor.py
+
+      # El Python guarda el estado durante el procesamiento.
+      # Este paso vuelve a intentar persistir cambios locales
+      # si algún guardado o push anterior falló.
+      - name: Guardar estado pendiente
+        if: ${{ always() && steps.state.outputs.ready == 'true' && env.PUBLISH_TO_X == 'true' }}
+        run: |
+          set -euo pipefail
+
+          git -C "$ACP_STATE" add --all
+
+          if git -C "$ACP_STATE" diff --cached --quiet; then
+            echo "Sin cambios de estado pendientes de commit."
+          else
+            git -C "$ACP_STATE" commit \
+              -m "Persist ACP state after execution"
+          fi
+
+          git -C "$ACP_STATE" push origin HEAD:acp-state
 
       - name: Guardar caché NOAA
-        if: always()
+        if: ${{ always() && steps.noaa_cache.outcome == 'success' }}
         uses: actions/cache/save@v4
         with:
           path: output/cache
@@ -86,8 +150,9 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ACP-results-${{ github.run_id }}
+          name: ACP-results-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
+            output/*.json
             output/*/*.mp4
             output/*/*.png
             output/*/*.csv
@@ -96,3 +161,4 @@ jobs:
             output/*/*.npz
           if-no-files-found: ignore
           retention-days: 7
+          compression-level: 0
