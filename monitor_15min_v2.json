@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T14:10:48.564171+00:00",
+  "last_successful_query_utc": "2026-10-09T14:20:40.628216+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -89,6 +89,50 @@
           ]
         },
         "id": "us6000u153"
+      }
+    },
+    "us6000u15x": {
+      "first_seen_utc": "2026-10-09T14:20:40.628216+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 5.4,
+          "place": "99 km NE of Norsup, Vanuatu",
+          "time": 1791553902764,
+          "updated": 1791555546162,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u15x",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u15x&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": 5.956,
+          "alert": "green",
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 449,
+          "net": "us",
+          "code": "6000u15x",
+          "ids": ",us6000u15x,",
+          "sources": ",us,",
+          "types": ",ground-failure,losspager,origin,phase-data,shakemap,",
+          "nst": 75,
+          "dmin": 6.192,
+          "rms": 0.72,
+          "gap": 58,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 5.4 - 99 km NE of Norsup, Vanuatu"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            168.1451,
+            -15.5361,
+            10
+          ]
+        },
+        "id": "us6000u15x"
       }
     }
   }
