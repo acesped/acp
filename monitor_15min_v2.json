@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T18:00:51.069424+00:00",
+  "last_successful_query_utc": "2026-10-09T18:10:50.726205+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -177,6 +177,50 @@
           ]
         },
         "id": "us6000u164"
+      }
+    },
+    "pt26282000": {
+      "first_seen_utc": "2026-10-09T18:10:50.726205+00:00",
+      "detection": "recent",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 8,
+          "place": "14 km SW of Pitaloza Arriba, Panama",
+          "time": 1791568568000,
+          "updated": 1791569315493,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pt26282000",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=pt26282000&format=geojson",
+          "felt": 1,
+          "cdi": 4.1,
+          "mmi": null,
+          "alert": null,
+          "status": "REVIEWED",
+          "tsunami": 0,
+          "sig": 985,
+          "net": "pt",
+          "code": "26282000",
+          "ids": ",pt26282000,usauto6000u18k,",
+          "sources": ",pt,usauto,",
+          "types": ",dyfi,internal-moment-tensor,origin,",
+          "nst": 13,
+          "dmin": null,
+          "rms": null,
+          "gap": 136.79998905600087,
+          "magType": "Mi",
+          "type": "earthquake",
+          "title": "M 8.0 - 14 km SW of Pitaloza Arriba, Panama"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -80.75,
+            7.54,
+            33
+          ]
+        },
+        "id": "pt26282000"
       }
     }
   }
