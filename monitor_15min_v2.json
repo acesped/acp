@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T15:00:57.482147+00:00",
+  "last_successful_query_utc": "2026-10-09T15:10:39.147809+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -133,6 +133,50 @@
           ]
         },
         "id": "us6000u15x"
+      }
+    },
+    "us6000u164": {
+      "first_seen_utc": "2026-10-09T15:10:39.147809+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 5.9,
+          "place": "west of Macquarie Island",
+          "time": 1791557381714,
+          "updated": 1791558514040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u164",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u164&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 536,
+          "net": "us",
+          "code": "6000u164",
+          "ids": ",usauto6000u164,us6000u164,",
+          "sources": ",usauto,us,",
+          "types": ",internal-moment-tensor,moment-tensor,origin,phase-data,",
+          "nst": 25,
+          "dmin": 24.1,
+          "rms": 1.27,
+          "gap": 100,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 5.9 - west of Macquarie Island"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            154.4619,
+            -60.9758,
+            10
+          ]
+        },
+        "id": "us6000u164"
       }
     }
   }
