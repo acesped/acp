@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T10:30:37.979246+00:00",
+  "last_successful_query_utc": "2026-10-09T10:40:45.753176+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -45,6 +45,50 @@
           ]
         },
         "id": "us6000u13v"
+      }
+    },
+    "us6000u153": {
+      "first_seen_utc": "2026-10-09T10:40:45.753176+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 5.1,
+          "place": "72 km SSW of Colchane, Chile",
+          "time": 1791541334915,
+          "updated": 1791542386040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u153",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u153&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 400,
+          "net": "us",
+          "code": "6000u153",
+          "ids": ",us6000u153,",
+          "sources": ",us,",
+          "types": ",origin,phase-data,",
+          "nst": 98,
+          "dmin": 0.41,
+          "rms": 0.76,
+          "gap": 48,
+          "magType": "mb",
+          "type": "earthquake",
+          "title": "M 5.1 - 72 km SSW of Colchane, Chile"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -68.7905,
+            -19.9128,
+            123.835
+          ]
+        },
+        "id": "us6000u153"
       }
     }
   }
