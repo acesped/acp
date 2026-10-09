@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T19:10:34.180169+00:00",
+  "last_successful_query_utc": "2026-10-09T19:20:33.835258+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -232,17 +232,17 @@
           "mag": 7.7,
           "place": "12 km WSW of Pitaloza Arriba, Panama",
           "time": 1791568566036,
-          "updated": 1791572865421,
+          "updated": 1791573506058,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18k",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18k&format=geojson",
-          "felt": 422,
+          "felt": 448,
           "cdi": 8.5,
-          "mmi": 8.455,
+          "mmi": 8.713,
           "alert": "red",
           "status": "reviewed",
           "tsunami": 0,
-          "sig": 2359,
+          "sig": 2381,
           "net": "us",
           "code": "6000u18k",
           "ids": ",pt26282000,us6000u18k,usauto6000u18k,",
@@ -397,6 +397,50 @@
           ]
         },
         "id": "us6000u194"
+      }
+    },
+    "us6000u195": {
+      "first_seen_utc": "2026-10-09T19:20:33.835258+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 5,
+          "place": "19 km S of Leones Arriba, Panama",
+          "time": 1791571624065,
+          "updated": 1791573213040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u195",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u195&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 385,
+          "net": "us",
+          "code": "6000u195",
+          "ids": ",us6000u195,",
+          "sources": ",us,",
+          "types": ",origin,phase-data,",
+          "nst": 51,
+          "dmin": 2.009,
+          "rms": 0.69,
+          "gap": 130,
+          "magType": "mb",
+          "type": "earthquake",
+          "title": "M 5.0 - 19 km S of Leones Arriba, Panama"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -81.0943,
+            7.5783,
+            10
+          ]
+        },
+        "id": "us6000u195"
       }
     }
   }
