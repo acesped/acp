@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T18:30:48.507630+00:00",
+  "last_successful_query_utc": "2026-10-09T18:40:35.386753+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -232,17 +232,17 @@
           "mag": 7.7,
           "place": "12 km WSW of Pitaloza Arriba, Panama",
           "time": 1791568566036,
-          "updated": 1791570479040,
+          "updated": 1791571206506,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18k",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18k&format=geojson",
-          "felt": 17,
-          "cdi": 4.6,
-          "mmi": 8.369,
+          "felt": 311,
+          "cdi": 8.5,
+          "mmi": 8.455,
           "alert": "pending",
           "status": "reviewed",
           "tsunami": 0,
-          "sig": 920,
+          "sig": 1177,
           "net": "us",
           "code": "6000u18k",
           "ids": ",pt26282000,us6000u18k,usauto6000u18k,",
@@ -265,6 +265,50 @@
           ]
         },
         "id": "us6000u18k"
+      }
+    },
+    "us6000u18t": {
+      "first_seen_utc": "2026-10-09T18:40:35.386753+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 5.5,
+          "place": "3 km SW of Bajo Corral, Panama",
+          "time": 1791570135709,
+          "updated": 1791571201241,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18t",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18t&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": 6.754,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 465,
+          "net": "us",
+          "code": "6000u18t",
+          "ids": ",us6000u18t,",
+          "sources": ",us,",
+          "types": ",origin,phase-data,shakemap,",
+          "nst": 69,
+          "dmin": 1.633,
+          "rms": 0.9,
+          "gap": 112,
+          "magType": "mb",
+          "type": "earthquake",
+          "title": "M 5.5 - 3 km SW of Bajo Corral, Panama"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -80.2885,
+            7.586,
+            10
+          ]
+        },
+        "id": "us6000u18t"
       }
     }
   }
