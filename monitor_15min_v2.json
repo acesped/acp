@@ -1,6 +1,51 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T05:30:43.306844+00:00",
-  "events": {}
+  "last_successful_query_utc": "2026-10-09T05:40:36.165963+00:00",
+  "events": {
+    "us6000u13v": {
+      "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 5.2,
+          "place": "117 km SE of Bitung, Indonesia",
+          "time": 1791522664200,
+          "updated": 1791524016610,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u13v",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u13v&format=geojson",
+          "felt": 1,
+          "cdi": 1,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 416,
+          "net": "us",
+          "code": "6000u13v",
+          "ids": ",us6000u13v,",
+          "sources": ",us,",
+          "types": ",dyfi,origin,phase-data,",
+          "nst": 59,
+          "dmin": 8.429,
+          "rms": 0.81,
+          "gap": 65,
+          "magType": "mb",
+          "type": "earthquake",
+          "title": "M 5.2 - 117 km SE of Bitung, Indonesia"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            125.9365,
+            0.7587,
+            40.049
+          ]
+        },
+        "id": "us6000u13v"
+      }
+    }
+  }
 }
