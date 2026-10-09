@@ -67,10 +67,10 @@ from tqdm import tqdm
 # La aplicación debe tener permisos Read and Write.
 # No guardes credenciales reales en un repositorio público.
 
-X_API_KEY = "zwIxxIiBJRQinx5D0Oc5AmitM"
-X_API_SECRET = "TDOEFl4HT9MCawfyNEFbxjtciYmL1VecfjaWO1UPONsu4Bebhw"
-X_ACCESS_TOKEN = "2561368769-Fq7ihvAYzYBmoCf746AUhd57R5kcf2XwDFgIczs"
-X_ACCESS_TOKEN_SECRET = "wrsve1rbqMErhTMsbKE1xymoSAcCXxkKOFqbfjZXKERRl"
+X_API_KEY = "YMNb4tZ8qx3kNwc8RefNdEhfH"
+X_API_SECRET = "06TuA5m9UKXVWpyx5JFn8BChsyjtbN3VcvdkOeAboRYYnBFbAX"
+X_ACCESS_TOKEN = "2106457141796052993-5BFufrvOJ8HUd13Mijh6zfycRPFC7q"
+X_ACCESS_TOKEN_SECRET = "uXGBSSOjrlPHQhQm27Ael2UnGHcIMRpGVdV7wrIqUopzG"
 
 
 # ================================================================
