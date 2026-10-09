@@ -1,8 +1,8 @@
 {
-  "status": "posting",
+  "status": "published",
   "event_id": "us6000u164",
+  "post_url": "https://x.com/i/web/status/2108616682143174852",
   "media_id": "2108616655458992128",
   "earthquake_time_utc": "2026-10-09T14:49:41.714000+00:00",
-  "started_at_utc": "2026-10-09T17:52:46.729229+00:00",
-  "attempts": 16
+  "published_at_utc": "2026-10-09T17:52:48.088785+00:00"
 }
