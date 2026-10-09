@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T16:10:45.994221+00:00",
+  "last_successful_query_utc": "2026-10-09T16:20:45.075110+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -144,7 +144,7 @@
           "mag": 5.9,
           "place": "west of Macquarie Island",
           "time": 1791557381714,
-          "updated": 1791558813712,
+          "updated": 1791562241040,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u164",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u164&format=geojson",
