@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T19:00:48.748392+00:00",
+  "last_successful_query_utc": "2026-10-09T19:10:34.180169+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -232,17 +232,17 @@
           "mag": 7.7,
           "place": "12 km WSW of Pitaloza Arriba, Panama",
           "time": 1791568566036,
-          "updated": 1791572212565,
+          "updated": 1791572865421,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18k",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18k&format=geojson",
-          "felt": 387,
+          "felt": 422,
           "cdi": 8.5,
           "mmi": 8.455,
           "alert": "red",
           "status": "reviewed",
           "tsunami": 0,
-          "sig": 2329,
+          "sig": 2359,
           "net": "us",
           "code": "6000u18k",
           "ids": ",pt26282000,us6000u18k,usauto6000u18k,",
@@ -353,6 +353,50 @@
           ]
         },
         "id": "us6000u18x"
+      }
+    },
+    "us6000u194": {
+      "first_seen_utc": "2026-10-09T19:10:34.180169+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 5,
+          "place": "18 km S of Los Asientos, Panama",
+          "time": 1791571812134,
+          "updated": 1791572859040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u194",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u194&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 385,
+          "net": "us",
+          "code": "6000u194",
+          "ids": ",us6000u194,",
+          "sources": ",us,",
+          "types": ",origin,phase-data,",
+          "nst": 41,
+          "dmin": 1.826,
+          "rms": 1.13,
+          "gap": 135,
+          "magType": "mb",
+          "type": "earthquake",
+          "title": "M 5.0 - 18 km S of Los Asientos, Panama"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -80.1178,
+            7.3504,
+            10
+          ]
+        },
+        "id": "us6000u194"
       }
     }
   }
