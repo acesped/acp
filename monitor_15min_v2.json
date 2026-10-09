@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T18:20:48.473353+00:00",
+  "last_successful_query_utc": "2026-10-09T18:30:48.507630+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -229,10 +229,10 @@
       "event": {
         "type": "Feature",
         "properties": {
-          "mag": 7.6,
-          "place": "10 km WSW of Pitaloza Arriba, Panama",
-          "time": 1791568565655,
-          "updated": 1791570035630,
+          "mag": 7.7,
+          "place": "12 km WSW of Pitaloza Arriba, Panama",
+          "time": 1791568566036,
+          "updated": 1791570479040,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18k",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18k&format=geojson",
@@ -242,26 +242,26 @@
           "alert": "pending",
           "status": "reviewed",
           "tsunami": 0,
-          "sig": 896,
+          "sig": 920,
           "net": "us",
           "code": "6000u18k",
           "ids": ",pt26282000,us6000u18k,usauto6000u18k,",
           "sources": ",pt,us,usauto,",
-          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,origin,phase-data,shakemap,",
-          "nst": 80,
-          "dmin": 1.804,
-          "rms": 0.83,
-          "gap": 124,
+          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "nst": 108,
+          "dmin": 1.82,
+          "rms": 0.84,
+          "gap": 45,
           "magType": "mww",
           "type": "earthquake",
-          "title": "M 7.6 - 10 km WSW of Pitaloza Arriba, Panama"
+          "title": "M 7.7 - 12 km WSW of Pitaloza Arriba, Panama"
         },
         "geometry": {
           "type": "Point",
           "coordinates": [
-            -80.7572,
-            7.5993,
-            10
+            -80.769,
+            7.5868,
+            12.647
           ]
         },
         "id": "us6000u18k"
