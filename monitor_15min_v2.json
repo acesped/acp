@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T18:40:35.386753+00:00",
+  "last_successful_query_utc": "2026-10-09T18:50:33.558578+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -232,22 +232,22 @@
           "mag": 7.7,
           "place": "12 km WSW of Pitaloza Arriba, Panama",
           "time": 1791568566036,
-          "updated": 1791571206506,
+          "updated": 1791571452967,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18k",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18k&format=geojson",
           "felt": 311,
           "cdi": 8.5,
           "mmi": 8.455,
-          "alert": "pending",
+          "alert": "red",
           "status": "reviewed",
           "tsunami": 0,
-          "sig": 1177,
+          "sig": 2264,
           "net": "us",
           "code": "6000u18k",
           "ids": ",pt26282000,us6000u18k,usauto6000u18k,",
           "sources": ",pt,us,usauto,",
-          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "types": ",dyfi,general-text,ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
           "nst": 108,
           "dmin": 1.82,
           "rms": 0.84,
@@ -276,14 +276,14 @@
           "mag": 5.5,
           "place": "3 km SW of Bajo Corral, Panama",
           "time": 1791570135709,
-          "updated": 1791571201241,
+          "updated": 1791571365902,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18t",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18t&format=geojson",
           "felt": null,
           "cdi": null,
           "mmi": 6.754,
-          "alert": null,
+          "alert": "green",
           "status": "reviewed",
           "tsunami": 0,
           "sig": 465,
@@ -291,7 +291,7 @@
           "code": "6000u18t",
           "ids": ",us6000u18t,",
           "sources": ",us,",
-          "types": ",origin,phase-data,shakemap,",
+          "types": ",ground-failure,losspager,origin,phase-data,shakemap,",
           "nst": 69,
           "dmin": 1.633,
           "rms": 0.9,
@@ -309,6 +309,50 @@
           ]
         },
         "id": "us6000u18t"
+      }
+    },
+    "us6000u18x": {
+      "first_seen_utc": "2026-10-09T18:50:33.558578+00:00",
+      "detection": "recent",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 5.8,
+          "place": "1 km S of El Cacao, Panama",
+          "time": 1791571066146,
+          "updated": 1791571699040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18x",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18x&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 518,
+          "net": "us",
+          "code": "6000u18x",
+          "ids": ",us6000u18x,",
+          "sources": ",us,",
+          "types": ",origin,phase-data,",
+          "nst": 67,
+          "dmin": 1.807,
+          "rms": 1.22,
+          "gap": 123,
+          "magType": "mb",
+          "type": "earthquake",
+          "title": "M 5.8 - 1 km S of El Cacao, Panama"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -80.4012,
+            7.4362,
+            10
+          ]
+        },
+        "id": "us6000u18x"
       }
     }
   }
