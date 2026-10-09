@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T15:50:34.216124+00:00",
+  "last_successful_query_utc": "2026-10-09T16:00:48.409494+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -100,7 +100,7 @@
           "mag": 5.4,
           "place": "99 km NE of Norsup, Vanuatu",
           "time": 1791553902764,
-          "updated": 1791555747040,
+          "updated": 1791561504201,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u15x",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u15x&format=geojson",
