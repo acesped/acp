@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "event_id": "us6000u15x",
+  "attempts": 1,
+  "last_error": "X HTTP 401: {\n  \"title\": \"Unauthorized\",\n  \"type\": \"about:blank\",\n  \"status\": 401,\n  \"detail\": \"Unauthorized\"\n}",
+  "updated_at_utc": "2026-10-09T14:26:15.533890+00:00"
+}
