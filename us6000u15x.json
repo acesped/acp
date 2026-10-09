@@ -1,7 +1,8 @@
 {
-  "status": "failed",
+  "status": "posting",
   "event_id": "us6000u15x",
-  "attempts": 22,
-  "last_error": "X HTTP 401: {\n  \"title\": \"Unauthorized\",\n  \"type\": \"about:blank\",\n  \"status\": 401,\n  \"detail\": \"Unauthorized\"\n}",
-  "updated_at_utc": "2026-10-09T17:44:33.417856+00:00"
+  "media_id": "2108617176286633984",
+  "earthquake_time_utc": "2026-10-09T13:51:42.764000+00:00",
+  "started_at_utc": "2026-10-09T17:54:52.431677+00:00",
+  "attempts": 22
 }
