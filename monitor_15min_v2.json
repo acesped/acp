@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-09T10:40:45.753176+00:00",
+  "last_successful_query_utc": "2026-10-09T10:50:42.698136+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -56,12 +56,12 @@
           "mag": 5.1,
           "place": "72 km SSW of Colchane, Chile",
           "time": 1791541334915,
-          "updated": 1791542386040,
+          "updated": 1791542823630,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u153",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u153&format=geojson",
-          "felt": null,
-          "cdi": null,
+          "felt": 1,
+          "cdi": 3.3,
           "mmi": null,
           "alert": null,
           "status": "reviewed",
@@ -71,7 +71,7 @@
           "code": "6000u153",
           "ids": ",us6000u153,",
           "sources": ",us,",
-          "types": ",origin,phase-data,",
+          "types": ",dyfi,origin,phase-data,",
           "nst": 98,
           "dmin": 0.41,
           "rms": 0.76,
