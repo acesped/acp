@@ -85,7 +85,7 @@ PUBLICAR_EN_X = (
 )
 
 VENTANA_MINUTOS = 15
-MAGNITUD_MINIMA = 5.0
+MAGNITUD_MINIMA = 6.0
 
 # Revisión de eventos reportados o revisados con retraso.
 REVISION_TARDIA_HORAS = 24
