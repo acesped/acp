@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-10T04:20:40.938060+00:00",
+  "last_successful_query_utc": "2026-10-10T04:30:50.502425+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -529,6 +529,50 @@
           ]
         },
         "id": "us6000u19w"
+      }
+    },
+    "us6000u1cf": {
+      "first_seen_utc": "2026-10-10T04:30:50.502425+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6,
+          "place": "7 km N of La Tronosa, Panama",
+          "time": 1791605641786,
+          "updated": 1791606566040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u1cf",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u1cf&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 554,
+          "net": "us",
+          "code": "6000u1cf",
+          "ids": ",usauto6000u1cf,us6000u1cf,",
+          "sources": ",usauto,us,",
+          "types": ",internal-moment-tensor,moment-tensor,origin,phase-data,",
+          "nst": 91,
+          "dmin": 1.813,
+          "rms": 1.21,
+          "gap": 110,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 6.0 - 7 km N of La Tronosa, Panama"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -80.5985,
+            7.5068,
+            10
+          ]
+        },
+        "id": "us6000u1cf"
       }
     }
   }
