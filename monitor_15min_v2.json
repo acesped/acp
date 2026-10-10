@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-10T06:40:43.874798+00:00",
+  "last_successful_query_utc": "2026-10-10T06:50:38.578092+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -232,7 +232,7 @@
           "mag": 7.7,
           "place": "12 km WSW of Pitaloza Arriba, Panama",
           "time": 1791568566036,
-          "updated": 1791614264395,
+          "updated": 1791614716228,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u18k",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u18k&format=geojson",
