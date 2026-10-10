@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-10T07:00:47.924464+00:00",
+  "last_successful_query_utc": "2026-10-10T07:10:46.264058+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -540,11 +540,11 @@
           "mag": 6,
           "place": "7 km N of La Tronosa, Panama",
           "time": 1791605641786,
-          "updated": 1791615454250,
+          "updated": 1791615754665,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u1cf",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u1cf&format=geojson",
-          "felt": 48,
+          "felt": 49,
           "cdi": 5.6,
           "mmi": 7.553,
           "alert": "yellow",
