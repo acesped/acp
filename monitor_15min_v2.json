@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-11T16:11:00.664901+00:00",
+  "last_successful_query_utc": "2026-10-11T16:20:41.563371+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -584,7 +584,7 @@
           "mag": 6.2,
           "place": "79 km SSE of Panguna, Papua New Guinea",
           "time": 1791727643188,
-          "updated": 1791729307149,
+          "updated": 1791735233916,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u1kv",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u1kv&format=geojson",
