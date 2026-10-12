@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-12T23:30:46.372069+00:00",
+  "last_successful_query_utc": "2026-10-12T23:40:42.718025+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -617,6 +617,50 @@
           ]
         },
         "id": "us6000u1kv"
+      }
+    },
+    "us6000u1wn": {
+      "first_seen_utc": "2026-10-12T23:40:42.718025+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.1,
+          "place": "18 km W of Río Grande, Panama",
+          "time": 1791847236486,
+          "updated": 1791848412277,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u1wn",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u1wn&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": 7.514,
+          "alert": "green",
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 572,
+          "net": "us",
+          "code": "6000u1wn",
+          "ids": ",us6000u1wn,usauto6000u1wn,attmti6g,",
+          "sources": ",us,usauto,at,",
+          "types": ",ground-failure,internal-moment-tensor,internal-origin,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "nst": 67,
+          "dmin": 2.195,
+          "rms": 1.19,
+          "gap": 127,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 6.1 - 18 km W of Río Grande, Panama"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -81.4989,
+            7.7028,
+            10
+          ]
+        },
+        "id": "us6000u1wn"
       }
     }
   }
