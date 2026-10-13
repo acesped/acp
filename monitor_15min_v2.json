@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-13T14:40:50.483954+00:00",
+  "last_successful_query_utc": "2026-10-13T14:50:44.487449+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -713,10 +713,10 @@
       "event": {
         "type": "Feature",
         "properties": {
-          "mag": 6.9,
+          "mag": 6.8,
           "place": "central Mid-Atlantic Ridge",
-          "time": 1791894187383,
-          "updated": 1791901792918,
+          "time": 1791894187248,
+          "updated": 1791902906067,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u214",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u214&format=geojson",
@@ -726,25 +726,25 @@
           "alert": "green",
           "status": "reviewed",
           "tsunami": 1,
-          "sig": 732,
+          "sig": 711,
           "net": "us",
           "code": "6000u214",
           "ids": ",attmuiel,usauto6000u214,us6000u214,pt26286001,",
           "sources": ",at,usauto,us,pt,",
-          "types": ",impact-link,internal-moment-tensor,losspager,origin,phase-data,shakemap,",
-          "nst": 89,
-          "dmin": 9.019,
-          "rms": 0.86,
+          "types": ",impact-link,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "nst": 98,
+          "dmin": 9.022,
+          "rms": 0.77,
           "gap": 74,
           "magType": "mww",
           "type": "earthquake",
-          "title": "M 6.9 - central Mid-Atlantic Ridge"
+          "title": "M 6.8 - central Mid-Atlantic Ridge"
         },
         "geometry": {
           "type": "Point",
           "coordinates": [
-            -19.4151,
-            -0.4016,
+            -19.4308,
+            -0.4085,
             10
           ]
         },
