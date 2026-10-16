@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-16T03:40:47.926360+00:00",
+  "last_successful_query_utc": "2026-10-16T03:50:38.058476+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -793,6 +793,50 @@
           ]
         },
         "id": "us6000u24c"
+      }
+    },
+    "us6000u2mq": {
+      "first_seen_utc": "2026-10-16T03:50:38.058476+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.9,
+          "place": "76 km NE of Ozernovskiy, Russia",
+          "time": 1792121732661,
+          "updated": 1792122429040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u2mq",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u2mq&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 732,
+          "net": "us",
+          "code": "6000u2mq",
+          "ids": ",usauto6000u2mq,us6000u2mq,",
+          "sources": ",usauto,us,",
+          "types": ",internal-moment-tensor,origin,phase-data,",
+          "nst": 79,
+          "dmin": 1.137,
+          "rms": 0.89,
+          "gap": 45,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 6.9 - 76 km NE of Ozernovskiy, Russia"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            157.2499,
+            52.0066,
+            143.176
+          ]
+        },
+        "id": "us6000u2mq"
       }
     }
   }
