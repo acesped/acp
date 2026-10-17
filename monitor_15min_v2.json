@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-17T03:30:46.100578+00:00",
+  "last_successful_query_utc": "2026-10-17T03:40:49.031434+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -804,7 +804,7 @@
           "mag": 6.9,
           "place": "76 km NE of Ozernovskiy, Russia",
           "time": 1792121731925,
-          "updated": 1792188387679,
+          "updated": 1792208324795,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u2mq",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u2mq&format=geojson",
