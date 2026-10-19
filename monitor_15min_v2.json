@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-19T12:00:54.868853+00:00",
+  "last_successful_query_utc": "2026-10-19T12:10:46.408929+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -848,12 +848,12 @@
           "mag": 6,
           "place": "186 km NW of Port-Olry, Vanuatu",
           "time": 1792396144900,
-          "updated": 1792403752512,
+          "updated": 1792411717509,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u3bc",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u3bc&format=geojson",
-          "felt": null,
-          "cdi": null,
+          "felt": 0,
+          "cdi": 1,
           "mmi": 4.013,
           "alert": "green",
           "status": "reviewed",
@@ -863,7 +863,7 @@
           "code": "6000u3bc",
           "ids": ",us6000u3bc,usauto6000u3bc,",
           "sources": ",us,usauto,",
-          "types": ",ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
           "nst": 82,
           "dmin": 6.596,
           "rms": 1.01,
