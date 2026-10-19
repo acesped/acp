@@ -1,7 +1,7 @@
 {
   "status": "failed",
   "event_id": "us6000u3bc",
-  "attempts": 7,
+  "attempts": 8,
   "last_error": "X HTTP 402: {\"detail\":\"credits depleted\",\"status\":402,\"title\":\"Payment Required\",\"type\":\"https://api.x.com/2/problems/credits-depleted\"}",
-  "updated_at_utc": "2026-10-19T10:03:05.819041+00:00"
+  "updated_at_utc": "2026-10-19T10:12:59.142114+00:00"
 }
