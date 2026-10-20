@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-20T04:20:46.274515+00:00",
+  "last_successful_query_utc": "2026-10-20T04:30:51.549647+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -881,6 +881,50 @@
           ]
         },
         "id": "us6000u3bc"
+      }
+    },
+    "pt26293000": {
+      "first_seen_utc": "2026-10-20T04:30:51.549647+00:00",
+      "detection": "recent",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.6,
+          "place": "195 km NW of Port-Olry, Vanuatu",
+          "time": 1792470037000,
+          "updated": 1792470573579,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pt26293000",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=pt26293000&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "REVIEWED",
+          "tsunami": 0,
+          "sig": 670,
+          "net": "pt",
+          "code": "26293000",
+          "ids": ",usauto6000u3jl,attn6uqj,pt26293000,",
+          "sources": ",usauto,at,pt,",
+          "types": ",internal-moment-tensor,internal-origin,origin,",
+          "nst": 13,
+          "dmin": null,
+          "rms": null,
+          "gap": 161.99998704000103,
+          "magType": "Mi",
+          "type": "earthquake",
+          "title": "M 6.6 - 195 km NW of Port-Olry, Vanuatu"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            165.713,
+            -13.869,
+            10
+          ]
+        },
+        "id": "pt26293000"
       }
     }
   }
