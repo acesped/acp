@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-22T15:10:54.496219+00:00",
+  "last_successful_query_utc": "2026-10-22T15:21:03.155278+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -980,7 +980,7 @@
           "mag": 7,
           "place": "183 km ENE of Nagqu, China",
           "time": 1792679619014,
-          "updated": 1792681679142,
+          "updated": 1792682410771,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u43g",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u43g&format=geojson",
@@ -995,7 +995,7 @@
           "code": "6000u43g",
           "ids": ",us6000u43g,usauto6000u43g,attnbcg6,",
           "sources": ",us,usauto,at,",
-          "types": ",ground-failure,internal-moment-tensor,internal-origin,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "types": ",general-text,ground-failure,internal-moment-tensor,internal-origin,losspager,moment-tensor,origin,phase-data,shakemap,",
           "nst": 117,
           "dmin": 9.026,
           "rms": 0.94,
