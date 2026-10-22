@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-22T15:21:03.155278+00:00",
+  "last_successful_query_utc": "2026-10-22T15:31:01.862991+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -978,9 +978,9 @@
         "type": "Feature",
         "properties": {
           "mag": 7,
-          "place": "183 km ENE of Nagqu, China",
-          "time": 1792679619014,
-          "updated": 1792682410771,
+          "place": "191 km ENE of Nagqu, China",
+          "time": 1792679620353,
+          "updated": 1792682939040,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u43g",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u43g&format=geojson",
@@ -996,20 +996,20 @@
           "ids": ",us6000u43g,usauto6000u43g,attnbcg6,",
           "sources": ",us,usauto,at,",
           "types": ",general-text,ground-failure,internal-moment-tensor,internal-origin,losspager,moment-tensor,origin,phase-data,shakemap,",
-          "nst": 117,
-          "dmin": 9.026,
-          "rms": 0.94,
-          "gap": 35,
+          "nst": 131,
+          "dmin": 8.956,
+          "rms": 1.01,
+          "gap": 21,
           "magType": "mww",
           "type": "earthquake",
-          "title": "M 7.0 - 183 km ENE of Nagqu, China"
+          "title": "M 7.0 - 191 km ENE of Nagqu, China"
         },
         "geometry": {
           "type": "Point",
           "coordinates": [
-            93.7138,
-            32.3357,
-            10
+            93.7797,
+            32.3805,
+            18
           ]
         },
         "id": "us6000u43g"
