@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-24T02:30:42.950963+00:00",
+  "last_successful_query_utc": "2026-10-24T02:40:44.137279+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1013,6 +1013,50 @@
           ]
         },
         "id": "us6000u43g"
+      }
+    },
+    "attne4d5": {
+      "first_seen_utc": "2026-10-24T02:40:44.137279+00:00",
+      "detection": "recent",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 7.2,
+          "place": "200 km W of Sola, Vanuatu",
+          "time": 1792809113000,
+          "updated": 1792809625932,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/attne4d5",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=attne4d5&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "automatic",
+          "tsunami": 1,
+          "sig": 798,
+          "net": "at",
+          "code": "tne4d5",
+          "ids": ",attne4d5,",
+          "sources": ",at,",
+          "types": ",impact-link,origin,",
+          "nst": 10,
+          "dmin": 0.01616968,
+          "rms": 1.13,
+          "gap": 65,
+          "magType": "mwp",
+          "type": "earthquake",
+          "title": "M 7.2 - 200 km W of Sola, Vanuatu"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            165.7,
+            -13.8,
+            10
+          ]
+        },
+        "id": "attne4d5"
       }
     }
   }
