@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-25T02:50:48.575569+00:00",
+  "last_successful_query_utc": "2026-10-25T03:00:51.032582+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1156,7 +1156,7 @@
           "mag": 6.5,
           "place": "Bonin Islands, Japan region",
           "time": 1792894163818,
-          "updated": 1792895388190,
+          "updated": 1792897237040,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u4r9",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u4r9&format=geojson",
@@ -1200,11 +1200,11 @@
           "mag": 6.2,
           "place": "21 km E of Port-Olry, Vanuatu",
           "time": 1792895042714,
-          "updated": 1792896382213,
+          "updated": 1792896930018,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u4rf",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u4rf&format=geojson",
-          "felt": 1,
+          "felt": 2,
           "cdi": 4.3,
           "mmi": 4.235,
           "alert": "green",
