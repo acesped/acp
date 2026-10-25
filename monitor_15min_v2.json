@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-25T06:40:40.981936+00:00",
+  "last_successful_query_utc": "2026-10-25T06:50:53.556029+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1156,7 +1156,7 @@
           "mag": 6.5,
           "place": "Bonin Islands, Japan region",
           "time": 1792894163818,
-          "updated": 1792901639551,
+          "updated": 1792910912040,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u4r9",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u4r9&format=geojson",
