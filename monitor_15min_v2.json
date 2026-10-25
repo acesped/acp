@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-25T05:00:54.312851+00:00",
+  "last_successful_query_utc": "2026-10-25T05:10:50.051207+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1200,13 +1200,13 @@
           "mag": 6.1,
           "place": "25 km ENE of Port-Olry, Vanuatu",
           "time": 1792895040476,
-          "updated": 1792904357779,
+          "updated": 1792904840703,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u4rf",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u4rf&format=geojson",
           "felt": 4,
           "cdi": 4.3,
-          "mmi": 4.235,
+          "mmi": 4.276,
           "alert": "green",
           "status": "reviewed",
           "tsunami": 0,
