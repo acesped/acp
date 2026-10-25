@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-25T02:30:41.420696+00:00",
+  "last_successful_query_utc": "2026-10-25T02:40:39.999856+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1068,7 +1068,7 @@
           "mag": 6.9,
           "place": "197 km WNW of Port-Olry, Vanuatu",
           "time": 1792809088641,
-          "updated": 1792834337265,
+          "updated": 1792895852973,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u4j2",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u4j2&format=geojson",
@@ -1112,7 +1112,7 @@
           "mag": 6.3,
           "place": "170 km NW of Port-Olry, Vanuatu",
           "time": 1792809357362,
-          "updated": 1792816986491,
+          "updated": 1792895978322,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u4jb",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u4jb&format=geojson",
@@ -1189,6 +1189,50 @@
           ]
         },
         "id": "us6000u4r9"
+      }
+    },
+    "us6000u4rf": {
+      "first_seen_utc": "2026-10-25T02:40:39.999856+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.2,
+          "place": "21 km E of Port-Olry, Vanuatu",
+          "time": 1792895042714,
+          "updated": 1792895985040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u4rf",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u4rf&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 591,
+          "net": "us",
+          "code": "6000u4rf",
+          "ids": ",usauto6000u4rf,us6000u4rf,",
+          "sources": ",usauto,us,",
+          "types": ",internal-moment-tensor,origin,phase-data,",
+          "nst": 84,
+          "dmin": 6.197,
+          "rms": 0.86,
+          "gap": 32,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 6.2 - 21 km E of Port-Olry, Vanuatu"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            167.2692,
+            -15.0125,
+            136.298
+          ]
+        },
+        "id": "us6000u4rf"
       }
     }
   }
