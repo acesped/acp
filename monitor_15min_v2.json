@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-25T04:50:46.270613+00:00",
+  "last_successful_query_utc": "2026-10-25T05:00:54.312851+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1197,10 +1197,10 @@
       "event": {
         "type": "Feature",
         "properties": {
-          "mag": 6.2,
-          "place": "21 km E of Port-Olry, Vanuatu",
-          "time": 1792895042714,
-          "updated": 1792903365947,
+          "mag": 6.1,
+          "place": "25 km ENE of Port-Olry, Vanuatu",
+          "time": 1792895040476,
+          "updated": 1792904357779,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000u4rf",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000u4rf&format=geojson",
@@ -1210,26 +1210,26 @@
           "alert": "green",
           "status": "reviewed",
           "tsunami": 0,
-          "sig": 593,
+          "sig": 574,
           "net": "us",
           "code": "6000u4rf",
           "ids": ",us6000u4rf,usauto6000u4rf,",
           "sources": ",us,usauto,",
-          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,origin,phase-data,shakemap,",
-          "nst": 84,
-          "dmin": 6.197,
-          "rms": 0.86,
-          "gap": 32,
+          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "nst": 125,
+          "dmin": 6.227,
+          "rms": 1.03,
+          "gap": 22,
           "magType": "mww",
           "type": "earthquake",
-          "title": "M 6.2 - 21 km E of Port-Olry, Vanuatu"
+          "title": "M 6.1 - 25 km ENE of Port-Olry, Vanuatu"
         },
         "geometry": {
           "type": "Point",
           "coordinates": [
-            167.2692,
-            -15.0125,
-            136.298
+            167.3039,
+            -14.9964,
+            116
           ]
         },
         "id": "us6000u4rf"
