@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-29T22:50:48.263936+00:00",
+  "last_successful_query_utc": "2026-10-29T23:00:51.398790+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1347,7 +1347,7 @@
           "code": "7000tu4f",
           "ids": ",us7000tu4f,usauto7000tu4f,",
           "sources": ",us,usauto,",
-          "types": ",dyfi,internal-moment-tensor,losspager,origin,phase-data,shakemap,",
+          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,origin,phase-data,shakemap,",
           "nst": 87,
           "dmin": 6.125,
           "rms": 0.8,
