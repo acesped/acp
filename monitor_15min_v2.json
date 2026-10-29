@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-29T08:01:03.084066+00:00",
+  "last_successful_query_utc": "2026-10-29T08:10:55.325116+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1277,6 +1277,50 @@
           ]
         },
         "id": "us7000ttlm"
+      }
+    },
+    "us7000ttxz": {
+      "first_seen_utc": "2026-10-29T08:10:55.325116+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.4,
+          "place": "southeast of Easter Island",
+          "time": 1793260190928,
+          "updated": 1793261211040,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000ttxz",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000ttxz&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 630,
+          "net": "us",
+          "code": "7000ttxz",
+          "ids": ",usauto7000ttxz,us7000ttxz,",
+          "sources": ",usauto,us,",
+          "types": ",internal-moment-tensor,moment-tensor,origin,phase-data,",
+          "nst": 83,
+          "dmin": 13.321,
+          "rms": 1.32,
+          "gap": 39,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 6.4 - southeast of Easter Island"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -98.0489,
+            -36.4058,
+            10
+          ]
+        },
+        "id": "us7000ttxz"
       }
     }
   }
