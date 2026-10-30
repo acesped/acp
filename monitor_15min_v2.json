@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-10-30T10:20:44.159982+00:00",
+  "last_successful_query_utc": "2026-10-30T10:30:55.633655+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1332,7 +1332,7 @@
           "mag": 6.2,
           "place": "43 km ESE of Port-Olry, Vanuatu",
           "time": 1793310404786,
-          "updated": 1793324512173,
+          "updated": 1793355788040,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tu4f",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000tu4f&format=geojson",
@@ -1347,7 +1347,7 @@
           "code": "7000tu4f",
           "ids": ",us7000tu4f,usauto7000tu4f,",
           "sources": ",us,usauto,",
-          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,origin,phase-data,shakemap,",
+          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
           "nst": 87,
           "dmin": 6.125,
           "rms": 0.8,
