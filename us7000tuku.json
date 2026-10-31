@@ -1,8 +1,8 @@
 {
-  "status": "posting",
+  "status": "published",
   "event_id": "us7000tuku",
+  "post_url": "https://x.com/i/web/status/2116660592110940569",
   "media_id": "2116660515703226369",
   "earthquake_time_utc": "2026-10-31T22:15:02.901000+00:00",
-  "started_at_utc": "2026-10-31T22:36:24.262635+00:00",
-  "attempts": 0
+  "published_at_utc": "2026-10-31T22:36:25.683537+00:00"
 }
