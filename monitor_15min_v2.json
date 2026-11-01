@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-01T00:10:39.008103+00:00",
+  "last_successful_query_utc": "2026-11-01T00:20:39.683471+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1376,7 +1376,7 @@
           "mag": 6,
           "place": "58 km SSE of Shima, Japan",
           "time": 1793484902901,
-          "updated": 1793491823106,
+          "updated": 1793492387761,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tuku",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000tuku&format=geojson",
