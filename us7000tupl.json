@@ -1,8 +1,8 @@
 {
-  "status": "posting",
+  "status": "published",
   "event_id": "us7000tupl",
+  "post_url": "https://x.com/i/web/status/2116866763321114688",
   "media_id": "2116866726293848064",
   "earthquake_time_utc": "2026-11-01T11:47:03.778000+00:00",
-  "started_at_utc": "2026-11-01T12:15:39.374532+00:00",
-  "attempts": 0
+  "published_at_utc": "2026-11-01T12:15:40.833645+00:00"
 }
