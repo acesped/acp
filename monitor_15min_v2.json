@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-05T18:00:51.718832+00:00",
+  "last_successful_query_utc": "2026-11-05T18:10:42.734505+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1464,12 +1464,12 @@
           "mag": 6.1,
           "place": "Fiji region",
           "time": 1793899305897,
-          "updated": 1793900933238,
+          "updated": 1793901714619,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tw8r",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000tw8r&format=geojson",
-          "felt": null,
-          "cdi": null,
+          "felt": 0,
+          "cdi": 1,
           "mmi": 0,
           "alert": "green",
           "status": "reviewed",
@@ -1479,7 +1479,7 @@
           "code": "7000tw8r",
           "ids": ",us7000tw8r,usauto7000tw8r,",
           "sources": ",us,usauto,",
-          "types": ",ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "types": ",dyfi,ground-failure,internal-moment-tensor,losspager,moment-tensor,origin,phase-data,shakemap,",
           "nst": 104,
           "dmin": 4.615,
           "rms": 0.96,
