@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-09T05:40:39.231280+00:00",
+  "last_successful_query_utc": "2026-11-09T05:50:37.638608+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1552,7 +1552,7 @@
           "mag": 6.4,
           "place": "30 km WSW of Lata, Solomon Islands",
           "time": 1794195299466,
-          "updated": 1794202815420,
+          "updated": 1794202888876,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tx16",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000tx16&format=geojson",
