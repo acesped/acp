@@ -1,8 +1,8 @@
 {
-  "status": "posting",
+  "status": "published",
   "event_id": "us7000tymu",
+  "post_url": "https://x.com/i/web/status/2122443950556586344",
   "media_id": "2122443895812591616",
   "earthquake_time_utc": "2026-11-16T21:11:17.168000+00:00",
-  "started_at_utc": "2026-11-16T21:37:24.198740+00:00",
-  "attempts": 0
+  "published_at_utc": "2026-11-16T21:37:25.816870+00:00"
 }
