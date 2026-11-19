@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-19T17:30:43.246149+00:00",
+  "last_successful_query_utc": "2026-11-19T17:40:40.548289+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1637,10 +1637,10 @@
       "event": {
         "type": "Feature",
         "properties": {
-          "mag": 6.1,
+          "mag": 6,
           "place": "Pacific-Antarctic Ridge",
-          "time": 1795029263713,
-          "updated": 1795036780040,
+          "time": 1795029263203,
+          "updated": 1795109903240,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tz37",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us7000tz37&format=geojson",
@@ -1650,25 +1650,25 @@
           "alert": "green",
           "status": "reviewed",
           "tsunami": 0,
-          "sig": 572,
+          "sig": 554,
           "net": "us",
           "code": "7000tz37",
           "ids": ",us7000tz37,",
           "sources": ",us,",
           "types": ",losspager,moment-tensor,origin,phase-data,shakemap,",
-          "nst": 105,
-          "dmin": 23.288,
-          "rms": 0.81,
-          "gap": 86,
+          "nst": 144,
+          "dmin": 23.132,
+          "rms": 0.77,
+          "gap": 31,
           "magType": "mww",
           "type": "earthquake",
-          "title": "M 6.1 - Pacific-Antarctic Ridge"
+          "title": "M 6.0 - Pacific-Antarctic Ridge"
         },
         "geometry": {
           "type": "Point",
           "coordinates": [
-            -146.746,
-            -57.7514,
+            -146.8744,
+            -57.5192,
             10
           ]
         },
