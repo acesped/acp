@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-21T12:10:35.839825+00:00",
+  "last_successful_query_utc": "2026-11-21T12:20:40.964237+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1772,7 +1772,7 @@
           "mag": 6.8,
           "place": "105 km NE of Lospalos, Timor Leste",
           "time": 1795254129120,
-          "updated": 1795262242963,
+          "updated": 1795263443337,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000ucij",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000ucij&format=geojson",
