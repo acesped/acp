@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-21T00:10:38.188719+00:00",
+  "last_successful_query_utc": "2026-11-21T00:20:44.150100+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1673,6 +1673,50 @@
           ]
         },
         "id": "us7000tz37"
+      }
+    },
+    "pt26325050": {
+      "first_seen_utc": "2026-11-21T00:20:44.150100+00:00",
+      "detection": "recent",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.9,
+          "place": "22 km WNW of Ondores, Peru",
+          "time": 1795219757000,
+          "updated": 1795220327108,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pt26325050",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=pt26325050&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "REVIEWED",
+          "tsunami": 1,
+          "sig": 732,
+          "net": "pt",
+          "code": "26325050",
+          "ids": ",attotsfi,pt26325050,",
+          "sources": ",at,pt,",
+          "types": ",impact-link,origin,",
+          "nst": 13,
+          "dmin": null,
+          "rms": null,
+          "gap": null,
+          "magType": "Mi",
+          "type": "earthquake",
+          "title": "M 6.9 - 22 km WNW of Ondores, Peru"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -76.319,
+            -10.98,
+            142.1
+          ]
+        },
+        "id": "pt26325050"
       }
     }
   }
