@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-21T00:20:44.150100+00:00",
+  "last_successful_query_utc": "2026-11-21T00:30:50.051466+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1717,6 +1717,50 @@
           ]
         },
         "id": "pt26325050"
+      }
+    },
+    "us6000ucfm": {
+      "first_seen_utc": "2026-11-21T00:30:50.051466+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.7,
+          "place": "9 km NE of Carhuamayo, Peru",
+          "time": 1795219759667,
+          "updated": 1795221030680,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000ucfm",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000ucfm&format=geojson",
+          "felt": 16,
+          "cdi": 4.4,
+          "mmi": 5.707,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 1,
+          "sig": 698,
+          "net": "us",
+          "code": "6000ucfm",
+          "ids": ",pt26325050,us6000ucfm,attotsfi,",
+          "sources": ",pt,us,at,",
+          "types": ",dyfi,impact-link,moment-tensor,origin,phase-data,shakemap,",
+          "nst": 74,
+          "dmin": 1.409,
+          "rms": 0.68,
+          "gap": 65,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 6.7 - 9 km NE of Carhuamayo, Peru"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -75.9779,
+            -10.8548,
+            107.991
+          ]
+        },
+        "id": "us6000ucfm"
       }
     }
   }
