@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-21T02:10:38.255261+00:00",
+  "last_successful_query_utc": "2026-11-21T02:20:39.715442+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1728,11 +1728,11 @@
           "mag": 6.7,
           "place": "9 km NE of Carhuamayo, Peru",
           "time": 1795219759667,
-          "updated": 1795227006294,
+          "updated": 1795227432355,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000ucfm",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000ucfm&format=geojson",
-          "felt": 89,
+          "felt": 90,
           "cdi": 5.2,
           "mmi": 5.707,
           "alert": "green",
