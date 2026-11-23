@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-23T04:10:45.402722+00:00",
+  "last_successful_query_utc": "2026-11-23T04:20:42.453972+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1859,8 +1859,8 @@
         "properties": {
           "mag": 6.5,
           "place": "Vanuatu region",
-          "time": 1795401657933,
-          "updated": 1795403211455,
+          "time": 1795401658052,
+          "updated": 1795407626508,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000ucvm",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000ucvm&format=geojson",
@@ -1875,11 +1875,11 @@
           "code": "6000ucvm",
           "ids": ",attoxos9,usauto6000ucvm,us6000ucvm,pt26327000,",
           "sources": ",at,usauto,us,pt,",
-          "types": ",impact-link,internal-moment-tensor,internal-origin,losspager,origin,phase-data,shakemap,",
-          "nst": 90,
-          "dmin": 6.911,
-          "rms": 0.73,
-          "gap": 45,
+          "types": ",impact-link,internal-moment-tensor,internal-origin,losspager,moment-tensor,origin,phase-data,shakemap,",
+          "nst": 194,
+          "dmin": 6.937,
+          "rms": 0.91,
+          "gap": 14,
           "magType": "mww",
           "type": "earthquake",
           "title": "M 6.5 - Vanuatu region"
@@ -1887,9 +1887,9 @@
         "geometry": {
           "type": "Point",
           "coordinates": [
-            172.2423,
-            -13.6607,
-            600.979
+            172.2672,
+            -13.5846,
+            598
           ]
         },
         "id": "us6000ucvm"
