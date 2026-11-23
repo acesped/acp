@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-23T02:40:45.987834+00:00",
+  "last_successful_query_utc": "2026-11-23T02:50:35.331441+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1805,6 +1805,50 @@
           ]
         },
         "id": "us6000ucij"
+      }
+    },
+    "pt26327000": {
+      "first_seen_utc": "2026-11-23T02:50:35.331441+00:00",
+      "detection": "recent",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.5,
+          "place": "Vanuatu region",
+          "time": 1795401657000,
+          "updated": 1795402199578,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/pt26327000",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=pt26327000&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "REVIEWED",
+          "tsunami": 1,
+          "sig": 650,
+          "net": "pt",
+          "code": "26327000",
+          "ids": ",attoxos9,usauto6000ucvm,pt26327000,",
+          "sources": ",at,usauto,pt,",
+          "types": ",impact-link,internal-moment-tensor,internal-origin,origin,",
+          "nst": 19,
+          "dmin": null,
+          "rms": null,
+          "gap": 75.59999395200049,
+          "magType": "Mi",
+          "type": "earthquake",
+          "title": "M 6.5 - Vanuatu region"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            172.279,
+            -13.546,
+            614.4
+          ]
+        },
+        "id": "pt26327000"
       }
     }
   }
