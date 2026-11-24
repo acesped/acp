@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-24T13:10:41.733752+00:00",
+  "last_successful_query_utc": "2026-11-24T13:20:55.975578+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1904,7 +1904,7 @@
           "mag": 6.4,
           "place": "Mauritius - Reunion region",
           "time": 1795518374036,
-          "updated": 1795523717040,
+          "updated": 1795526100039,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000ud6h",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000ud6h&format=geojson",
