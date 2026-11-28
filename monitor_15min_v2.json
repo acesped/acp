@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-28T15:20:43.134788+00:00",
+  "last_successful_query_utc": "2026-11-28T15:30:56.227036+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1948,7 +1948,7 @@
           "mag": 6.7,
           "place": "62 km NNW of Yelizovo, Russia",
           "time": 1795871706781,
-          "updated": 1795879173498,
+          "updated": 1795879417816,
           "tz": null,
           "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000ue3p",
           "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000ue3p&format=geojson",
