@@ -1,7 +1,7 @@
 {
   "version": "ACP-ALL-EVENTS-15MIN-PERSISTENT-v2",
   "monitoring_start_utc": "2026-10-08T10:53:06.343867+00:00",
-  "last_successful_query_utc": "2026-11-28T13:20:45.557408+00:00",
+  "last_successful_query_utc": "2026-11-28T13:30:51.056718+00:00",
   "events": {
     "us6000u13v": {
       "first_seen_utc": "2026-10-09T05:40:36.165963+00:00",
@@ -1937,6 +1937,50 @@
           ]
         },
         "id": "us6000ud6h"
+      }
+    },
+    "us6000ue3p": {
+      "first_seen_utc": "2026-11-28T13:30:51.056718+00:00",
+      "detection": "recovered",
+      "event": {
+        "type": "Feature",
+        "properties": {
+          "mag": 6.7,
+          "place": "62 km NNW of Yelizovo, Russia",
+          "time": 1795871706781,
+          "updated": 1795872506239,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000ue3p",
+          "detail": "https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=us6000ue3p&format=geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": 4.492,
+          "alert": null,
+          "status": "reviewed",
+          "tsunami": 0,
+          "sig": 691,
+          "net": "us",
+          "code": "6000ue3p",
+          "ids": ",usauto6000ue3p,attp7rh7,us6000ue3p,aka2026xojvzn,",
+          "sources": ",usauto,at,us,ak,",
+          "types": ",internal-moment-tensor,internal-origin,origin,phase-data,shakemap,",
+          "nst": 66,
+          "dmin": 0.653,
+          "rms": 1.44,
+          "gap": 80,
+          "magType": "mww",
+          "type": "earthquake",
+          "title": "M 6.7 - 62 km NNW of Yelizovo, Russia"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            158.0792,
+            53.7187,
+            188.422
+          ]
+        },
+        "id": "us6000ue3p"
       }
     }
   }
